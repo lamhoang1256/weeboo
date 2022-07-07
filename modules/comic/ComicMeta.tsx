@@ -1,23 +1,25 @@
 import Link from "next/link";
+import classNames from "utils/classNames";
 
 interface ComicMetaProps {
+  className?: string;
   meta: {
     newChapter: string;
     updatedAgo: string;
-    newestChapterUrl: string;
+    to: string;
   };
 }
 
-const ComicMeta = ({ meta }: ComicMetaProps) => {
-  if (!meta) return null;
-  const { newChapter, updatedAgo, newestChapterUrl } = meta;
+const ComicMeta = ({ meta, className = "" }: ComicMetaProps) => {
+  console.log("className: ", className);
+  const { newChapter, updatedAgo, to } = meta;
   return (
     <div className="mt-2 flex justify-between items-end">
-      <Link href={newestChapterUrl}>
-        <a className="text-[#333] text-sm font-semibold">{newChapter}</a>
+      <Link href={to}>
+        <a className={classNames("text-[#333] text-sm font-semibold", className)}>{newChapter}</a>
       </Link>
-      <Link href={newestChapterUrl}>
-        <a className="text-[#8a8a8f] text-sm">{updatedAgo}</a>
+      <Link href={to}>
+        <a className={classNames("text-[#8a8a8f] text-sm", className)}>{updatedAgo}</a>
       </Link>
     </div>
   );

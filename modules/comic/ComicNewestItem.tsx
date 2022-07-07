@@ -9,17 +9,16 @@ interface ComicNewestItemProps {
 }
 
 const ComicNewestItem = ({ comic }: ComicNewestItemProps) => {
-  if (!comic) return null;
-  const { posterUrl, slug, title, newestChapter, newestChapterUrl, updatedAgo } = comic;
+  const { posterUrl, slug, title, newestChapter, newestUrl, updatedAgo } = comic;
   const meta = {
     newChapter: newestChapter,
-    newestChapterUrl: newestChapterUrl,
+    to: `${path.watch}/${newestUrl}`,
     updatedAgo: updatedAgo,
   };
   return (
     <div className="max-w-[200px]">
-      <ComicImage to={`${path.detail}/${slug}`} url={posterUrl} />
-      <ComicTitle to={`${path.detail}/${slug}`}>{title}</ComicTitle>
+      <ComicImage to={`${path.watch}/${slug}`} url={posterUrl} />
+      <ComicTitle to={`${path.watch}/${slug}`}>{title}</ComicTitle>
       <ComicMeta meta={meta} />
     </div>
   );

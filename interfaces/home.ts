@@ -16,7 +16,7 @@ export interface INewestComic {
   posterUrl: string;
   newestChapter: string;
   updatedAgo: string;
-  newestChapterUrl: string;
+  newestUrl: string;
 }
 
 export interface INewestComics {

@@ -80,8 +80,8 @@ function getNewestComic(node: any) {
   const title = node.find(".jtip").text();
   const posterUrl = node.find(".image > a > img").attr("data-original") || "";
   const updatedAgo = node.find(".comic-item .chapter .time").first().text();
-  const newestElement = node.find(".comic-item .chapter a").first();
-  const newestChapter = newestElement.text();
-  const newestChapterUrl = newestElement.attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  return { slug, title, posterUrl, newestChapter, updatedAgo, newestChapterUrl };
+  const newestEle = node.find(".comic-item .chapter a").first();
+  const newestChapter = newestEle.text();
+  const newestUrl = newestEle.attr("href")?.split("/truyen-tranh/")?.[1] || "";
+  return { slug, title, posterUrl, newestChapter, updatedAgo, newestUrl };
 }
