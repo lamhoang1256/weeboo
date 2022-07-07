@@ -6,6 +6,33 @@
   body {
     font-family: "Nunito Sans", sans-serif;
   }
+  ul,
+  ol {
+    list-style: none;
+  }
+  input,
+  textarea,
+  select,
+  button {
+    outline: none;
+    font-size: 16px;
+    font: inherit;
+  }
+  input {
+    line-height: normal;
+  }
+  label,
+  button {
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+  }
+  img,
+  picture {
+    display: block;
+    max-width: 100%;
+  }
 }
 h1 {
   @apply text-2xl;
@@ -17,7 +44,7 @@ h3 {
   @apply text-lg;
 }
 a {
-  @apply text-blue-600 underline;
+  @apply text-blue-600;
 }
 
 @layer utilities {
@@ -26,6 +53,10 @@ a {
     max-width: 1440px;
     padding: 0 15px;
     margin: 0 auto;
+  }
+  .grid-home-newest {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(166px, 1fr));
   }
   .banner-item {
     width: 200px !important;

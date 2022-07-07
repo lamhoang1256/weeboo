@@ -2,7 +2,7 @@ export interface ITopComic {
   slug: string;
   title: string;
   posterUrl: string;
-  lastestChapter: string;
+  newestChapter: string;
   updatedAgo: string;
 }
 export interface ITopComics {
@@ -10,16 +10,16 @@ export interface ITopComics {
   comics: ITopComic[];
 }
 
-export interface ILastestComic {
+export interface INewestComic {
   slug: string;
   title: string;
   posterUrl: string;
-  lastestChapter: string;
+  newestChapter: string;
   updatedAgo: string;
-  lastestChapterUrl: string;
+  newestChapterUrl: string;
 }
 
-export interface ILastestComics {
+export interface INewestComics {
   headline: string;
-  comics: ILastestComic[];
+  comics: INewestComic[];
 }

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { ILastestComic, ILastestComics, ITopComic, ITopComics } from "interfaces/home";
+import { INewestComic, INewestComics, ITopComic, ITopComics } from "interfaces/home";
 
 const url = process.env.URL_CRAWL || "";
 interface HomeResponse {
@@ -33,7 +33,7 @@ async function getHome() {
     const html = response.data;
     const $ = cheerio.load(html);
     let topComics: ITopComics = { headline: "", comics: [] };
-    let lastestComics: ILastestComics = { headline: "", comics: [] };
+    let newestComics: INewestComics = { headline: "", comics: [] };
 
     // get all top comics
     $(".top-comics", html).each(function () {
@@ -47,20 +47,20 @@ async function getHome() {
         });
       topComics = { headline, comics };
     });
-    // get all new comics
+    // get all newest comics
     $("#ctl00_divCenter .ModuleContent", html).each(function () {
-      let comics: ILastestComic[] = [];
+      let comics: INewestComic[] = [];
       const headline: string = $(this).find(".page-title").text();
       $(this)
         .find(".item")
         .each(function (index, element) {
-          const comic = getNewComic($(element));
+          const comic = getNewestComic($(element));
           comics.push(comic);
         });
-      lastestComics = { headline, comics };
+      newestComics = { headline, comics };
     });
 
-    return { topComics, lastestComics };
+    return { topComics, newestComics };
   } catch (error) {
     console.log(error);
   }
@@ -70,18 +70,18 @@ function getTopComic(node: any) {
   const slug = node.find("a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
   const title = node.find(".slide-caption h3 a").text();
   const posterUrl = node.find(".lazyOwl").attr("data-src") || "";
-  const lastestChapter = node.find(".slide-caption > a").text();
+  const newestChapter = node.find(".slide-caption > a").text();
   const updatedAgo = node.find(".slide-caption > .time").text().trim();
-  return { slug, title, posterUrl, lastestChapter, updatedAgo };
+  return { slug, title, posterUrl, newestChapter, updatedAgo };
 }
 
-function getNewComic(node: any) {
+function getNewestComic(node: any) {
   const slug = node.find(".image > a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  const title = node.find(".image a").attr("title");
+  const title = node.find(".jtip").text();
   const posterUrl = node.find(".image > a > img").attr("data-original") || "";
   const updatedAgo = node.find(".comic-item .chapter .time").first().text();
-  const lastestElement = node.find(".comic-item .chapter a").first();
-  const lastestChapter = lastestElement.text();
-  const lastestChapterUrl = lastestElement.attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  return { slug, title, posterUrl, lastestChapter, updatedAgo, lastestChapterUrl };
+  const newestElement = node.find(".comic-item .chapter a").first();
+  const newestChapter = newestElement.text();
+  const newestChapterUrl = newestElement.attr("href")?.split("/truyen-tranh/")?.[1] || "";
+  return { slug, title, posterUrl, newestChapter, updatedAgo, newestChapterUrl };
 }

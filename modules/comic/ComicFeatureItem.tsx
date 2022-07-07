@@ -1,11 +1,11 @@
 import { ITopComic } from "interfaces/home";
 import Link from "next/link";
 
-interface TopComicCardProps {
+interface ComicFeatureItemProps {
   data: ITopComic;
 }
 
-const TopComicCard = ({ data }: TopComicCardProps) => {
+const ComicFeatureItem = ({ data }: ComicFeatureItemProps) => {
   return (
     <Link href={`/comic/${data.slug}`}>
       <a className="block relative max-w-[200px] h-[300px] rounded-md overflow-hidden">
@@ -16,7 +16,7 @@ const TopComicCard = ({ data }: TopComicCardProps) => {
         >
           <h3 className="text-white font-semibold line-clamp-1">{data.title}</h3>
           <div className="flex justify-between items-center text-white">
-            <span>{data.lastestChapter}</span>
+            <span>{data.newestChapter}</span>
             <span>{data.updatedAgo}</span>
           </div>
         </div>
@@ -25,4 +25,4 @@ const TopComicCard = ({ data }: TopComicCardProps) => {
   );
 };
 
-export default TopComicCard;
+export default ComicFeatureItem;

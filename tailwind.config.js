@@ -12,6 +12,9 @@ module.exports = {
       backgroundImage: {
         linearGreen: "linear-gradient(to right bottom, rgb(29, 192, 113), rgb(164, 217, 108))",
       },
+      aspectRatio: {
+        "2/3": "2/3",
+      },
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],
