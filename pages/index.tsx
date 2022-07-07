@@ -1,23 +1,26 @@
-import { getTopComics } from "utils/api";
+import { getHomeData } from "utils/api";
 import { Layout } from "components/layouts";
+import HomeBanner from "modules/home/HomeBanner";
 
 interface HomeProps {
-  topComics: any;
+  data: any;
 }
 
-const Home = ({ topComics }: HomeProps) => {
-  // console.log("topComics: ", topComics);
+const Home = ({ data }: HomeProps) => {
+  console.log("data: ", data);
   return (
     <Layout title="HomePage">
-      <div className="layout-container">main</div>
+      <div className="layout-container">
+        <HomeBanner topComics={data.topComics}></HomeBanner>
+      </div>
     </Layout>
   );
 };
 
 export async function getStaticProps() {
-  const data = await getTopComics();
+  const { data } = await getHomeData();
   return {
-    props: { topComics: data },
+    props: { data },
   };
 }
 
