@@ -1,9 +1,13 @@
 import { getHomeData } from "utils/api";
 import { Layout } from "components/layouts";
 import HomeBanner from "modules/home/HomeBanner";
+import { ILastestComics, ITopComics } from "interfaces/home";
 
 interface HomeProps {
-  data: any;
+  data: {
+    topComics: ITopComics;
+    lastestComics: ILastestComics;
+  };
 }
 
 const Home = ({ data }: HomeProps) => {
