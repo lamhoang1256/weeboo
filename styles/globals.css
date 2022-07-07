@@ -7,10 +7,23 @@
     font-family: "Poppins", sans-serif;
   }
 }
+h1 {
+  @apply text-2xl;
+}
+h2 {
+  @apply text-xl;
+}
+h3 {
+  @apply text-lg;
+}
+a {
+  @apply text-blue-600 underline;
+}
+
 @layer utilities {
   .layout-container {
     width: 100%;
-    max-width: 1470px;
+    max-width: 1440px;
     padding: 0 15px;
     margin: 0 auto;
   }
