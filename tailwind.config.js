@@ -5,7 +5,14 @@ module.exports = {
     "./modules/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        green2d: "#2dcb48",
+      },
+      backgroundImage: {
+        linearGreen: "linear-gradient(to right bottom, rgb(29, 192, 113), rgb(164, 217, 108))",
+      },
+    },
   },
   plugins: [],
 };

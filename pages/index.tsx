@@ -1,11 +1,17 @@
 import { getTopComics } from "utils/api";
+import { Layout } from "components/layouts";
 
 interface HomeProps {
   topComics: any;
 }
 
 const Home = ({ topComics }: HomeProps) => {
-  return <div className="text-center">{JSON.stringify(topComics)}</div>;
+  // console.log("topComics: ", topComics);
+  return (
+    <Layout title="HomePage">
+      <div className="layout-container">main</div>
+    </Layout>
+  );
 };
 
 export async function getStaticProps() {

@@ -37,29 +37,30 @@ async function getHome() {
 
     // get all top comics
     $(".top-comics", html).each(function () {
-      const headline = $(this).find("h2.page-title").text();
       let comics: ITopComic[] = [];
+      const headline = $(this).find("h2.page-title").text();
       $(this)
         .find(".item")
-        .each(function () {
-          const comic = getTopComic($(this));
+        .each(function (index, element) {
+          const comic = getTopComic($(element));
           comics.push(comic);
         });
       topComics = { headline, comics };
     });
     // get all new comics
     $("#ctl00_divCenter .ModuleContent", html).each(function () {
-      const headline: string = $(this).find(".page-title").text();
       let comics: ILastestComic[] = [];
+      const headline: string = $(this).find(".page-title").text();
       $(this)
         .find(".item")
-        .each(function () {
-          const comic = getNewComic($(this));
+        .each(function (index, element) {
+          const comic = getNewComic($(element));
           comics.push(comic);
         });
       lastestComics = { headline, comics };
     });
-    return { lastestComics, topComics };
+
+    return { topComics, lastestComics };
   } catch (error) {
     console.log(error);
   }
