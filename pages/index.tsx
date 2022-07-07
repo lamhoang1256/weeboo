@@ -7,7 +7,6 @@ interface HomeProps {
 }
 
 const Home = ({ data }: HomeProps) => {
-  console.log("data: ", data);
   return (
     <Layout title="HomePage">
       <div className="layout-container">
