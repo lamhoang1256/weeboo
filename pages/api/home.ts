@@ -3,7 +3,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { INewestComic, INewestComics, ITopComic, ITopComics } from "interfaces/home";
 
-const url = process.env.URL_CRAWL || "";
+const URL = process.env.URL_CRAWL || "";
 interface HomeResponse {
   data: any;
 }
@@ -29,7 +29,7 @@ export default async function handler(
 
 async function getHome() {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(URL);
     const html = response.data;
     const $ = cheerio.load(html);
     let topComics: ITopComics = { headline: "", comics: [] };

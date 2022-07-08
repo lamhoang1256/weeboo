@@ -11,7 +11,6 @@ interface ComicMetaProps {
 }
 
 const ComicMeta = ({ meta, className = "" }: ComicMetaProps) => {
-  console.log("className: ", className);
   const { newChapter, updatedAgo, to } = meta;
   return (
     <div className="mt-2 flex justify-between items-end">
