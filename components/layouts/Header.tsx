@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header>
+    <header className="hidden md:block">
       <div className="layout-container">
         <div className="h-20 flex justify-between items-center">
           <Link href={path.home}>

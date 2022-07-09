@@ -1,16 +1,16 @@
-import { getComicDetail } from "utils/api";
+import { getComicDetail } from "config/api";
 import { IDetail, IOptionChapter } from "interfaces/detail";
 import { IconEye, IconLike } from "components/icons";
 import { IWatchComment } from "interfaces/watch";
 import { Comments } from "components/comment";
 import { Layout } from "components/layouts";
+import { DetailEpisodes } from "modules/detail";
 import {
   ComicImage,
   ComicTitle,
   ComicMetaGroup,
   ComicDesc,
   ComicRating,
-  ComicEpisodes,
   ComicUpdatedAt,
   ComicCountNum,
 } from "modules/comic";
@@ -25,8 +25,8 @@ const ComicDetail = ({ detail, listChapter, comments }: ComicDetailProps) => {
   return (
     <Layout title={detail.title}>
       <div className="layout-container">
-        <div className="flex gap-x-[50px] pt-[45px]">
-          <div className="flex-shrink-0 w-[240px]">
+        <div className="flex flex-col md:flex-row gap-y-6 gap-x-[50px] pt-[45px]">
+          <div className="mx-auto md:mx-0 flex-shrink-0 w-[240px]">
             <ComicImage url={detail?.posterUrl} />
           </div>
           <div>
@@ -47,7 +47,7 @@ const ComicDetail = ({ detail, listChapter, comments }: ComicDetailProps) => {
           </div>
         </div>
         <ComicDesc label="Tóm tắt">{detail?.description}</ComicDesc>
-        <ComicEpisodes listChapter={listChapter} />
+        <DetailEpisodes listChapter={listChapter} />
         <Comments comments={comments} />
       </div>
     </Layout>

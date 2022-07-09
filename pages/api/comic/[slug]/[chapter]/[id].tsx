@@ -37,7 +37,6 @@ async function fetchWatch(url: string) {
     const imageUrls: string[] = [];
     const comicDetail: IWatchDetail[] = [];
     const comments: IWatchComment[] = [];
-
     // get comic detail information
     $(".reading .container .top")
       .first()

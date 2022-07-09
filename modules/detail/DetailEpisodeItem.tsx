@@ -2,7 +2,12 @@ import { IOptionChapter } from "interfaces/detail";
 import { IconEye } from "components/icons";
 import Link from "next/link";
 
-const ComicEpisodeItem = ({ title, url, updatedAt, viewCount }: IOptionChapter) => {
+interface DetailEpisodeItemProps {
+  episode: IOptionChapter;
+}
+
+const DetailEpisodeItem = ({ episode }: DetailEpisodeItemProps) => {
+  const { title, url, updatedAt, viewCount } = episode;
   return (
     <Link href={url}>
       <a className="bg-[#f8f8f8] p-4 rounded-[10px] font-semibold">
@@ -19,4 +24,4 @@ const ComicEpisodeItem = ({ title, url, updatedAt, viewCount }: IOptionChapter) 
   );
 };
 
-export default ComicEpisodeItem;
+export default DetailEpisodeItem;

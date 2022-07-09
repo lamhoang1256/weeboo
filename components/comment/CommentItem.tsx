@@ -1,4 +1,4 @@
-import Image from "components/image/Image";
+import { Image } from "components/image";
 import { IWatchComment } from "interfaces/watch";
 
 interface CommentItemProps {

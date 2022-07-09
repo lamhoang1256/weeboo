@@ -12,13 +12,11 @@ const ComicImage = ({ to, url, className = "" }: ComicImageProps) => {
   if (to) {
     return (
       <Link href={to}>
-        <a>
-          <LazyLoadImage
-            src={url}
-            className={classNames("rounded-md aspect-[2/3] w-full", className)}
-            alt="poster"
-          />
-        </a>
+        <LazyLoadImage
+          src={url}
+          className={classNames("rounded-md aspect-[2/3] w-full cursor-pointer", className)}
+          alt="poster"
+        />
       </Link>
     );
   }
