@@ -16,12 +16,12 @@ const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) =
   return (
     <Layout title={`${comicDetail?.title} ${comicDetail?.chapter}`}>
       <div className="layout-container">
-        <div className="flex gap-x-2">
-          <ComicTitle>{comicDetail?.title}</ComicTitle>
-          <span>{comicDetail?.chapter}</span>
-          <ComicUpdatedAt>{comicDetail?.updated}</ComicUpdatedAt>
+        <div className="mt-2 flex flex-wrap gap-x-2">
+          <ComicTitle className="text-2xl">{comicDetail?.title}</ComicTitle>
+          <span className="text-2xl">{comicDetail?.chapter}</span>
         </div>
-        <div className="max-w-[770px] mx-auto">
+        <ComicUpdatedAt className="block mt-1">{comicDetail?.updated}</ComicUpdatedAt>
+        <div className="max-w-[770px] mx-auto mt-8">
           <div className="mx-[-15px]">
             {imageUrls?.map((image) => (
               <Image url={image} key={uuidv4()} alt={comicDetail?.title} />
