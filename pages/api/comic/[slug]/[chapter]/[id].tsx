@@ -1,7 +1,8 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { IWatchComment, IWatchDetail } from "interfaces/watch";
 import type { NextApiRequest, NextApiResponse } from "next";
-const URL = "http://www.nettruyenco.com/truyen-tranh/toan-chuc-phap-su/chap-892/874717";
+const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface WatchResponse {
   data: any;
@@ -9,16 +10,18 @@ interface WatchResponse {
 interface WatchError {
   error: string;
 }
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<WatchResponse | WatchError>
 ) {
   const { method } = req;
+  const { slug, chapter, id } = req.query;
   if (method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await fetchWatch();
+    const data = await fetchWatch(`${BASE_URL}/${slug}/${chapter}/${id}`);
     return res.status(200).json({ data });
   } catch (error: any) {
     console.log("Fetching topComics failed: ", error);
@@ -26,20 +29,19 @@ export default async function handler(
   }
 }
 
-async function fetchWatch() {
+async function fetchWatch(url: string) {
   try {
-    const response = await axios.get(URL);
+    const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
     const imageUrls: string[] = [];
-    const comicDetail: any = [];
-    const comments: any = [];
-
+    const comicDetail: IWatchDetail[] = [];
+    const comments: IWatchComment[] = [];
     // get comic detail information
     $(".reading .container .top")
       .first()
       .each(function (index, element) {
-        const urlComic = $(element).find(".txt-primary > a").attr("href");
+        const urlComic = $(element).find(".txt-primary > a").attr("href") || "";
         const title = $(element).find(".txt-primary > a").text();
         const updated = $(element).find("i").text();
         comicDetail.push({ title, updated, urlComic });
@@ -77,7 +79,6 @@ function getComment(node: any) {
     .find("img")
     .attr("data-original")
     ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
-  console.log("avatar: ", avatar);
   const content = node.find(".comment-content").text();
   const time = node.find("abbr").text().trim();
   return { id, username, avatar, content, time };
