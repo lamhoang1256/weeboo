@@ -1,7 +1,9 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { IDetail, IOptionChapter } from "interfaces/detail";
+import { IWatchComment } from "interfaces/watch";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getComment } from "./[chapter]/[id]";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface DetailResponse {
@@ -34,8 +36,10 @@ async function fetchDetailComic(url: string) {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    let detail: IDetail[] = [];
+    let detail: IDetail = {} as IDetail;
     let listChapter: IOptionChapter[] = [];
+    const comments: IWatchComment[] = [];
+
     $("#ctl00_divCenter").each(function (index, item) {
       const title = $(item).find(".title-detail").text();
       const updatedAt = $(item).find("time.small").text().trim();
@@ -52,7 +56,7 @@ async function fetchDetailComic(url: string) {
       const ratingCount = $(item).find(".mrt5.mrb10 > span > span").last().text();
       const followCount = $(item).find(".follow span b").text();
       const description = $(item).find(".detail-content p").text().trim();
-      detail.push({
+      detail = {
         title,
         updatedAt,
         posterUrl,
@@ -64,15 +68,26 @@ async function fetchDetailComic(url: string) {
         ratingValue,
         followCount,
         description,
-      });
+      };
       $(item)
         .find(".list-chapter li.row")
         .each(function (index, option) {
           const chapter = getListChapter($(option));
           listChapter.push(chapter);
         });
+
+      $(item)
+        .find(".comment-list")
+        .each(function (index, element) {
+          $(element)
+            .find(".item")
+            .each(function (index, element) {
+              const comment = getComment($(element).first());
+              comments.push(comment);
+            });
+        });
     });
-    return { detail, listChapter };
+    return { detail, listChapter, comments };
   } catch (error) {
     console.log(error);
   }
@@ -81,8 +96,8 @@ async function fetchDetailComic(url: string) {
 function getListChapter(node: any) {
   const id = node.find(".chapter a").attr("data-id");
   const url = node.find(".chapter a").attr("href").split("/truyen-tranh/")[1] || "";
-  const chapter = node.find(".chapter a").text();
+  const title = node.find(".chapter a").text();
   const updatedAt = node.find(".col-xs-4").text();
   const viewCount = node.find(".col-xs-3").text();
-  return { id, url, chapter, updatedAt, viewCount };
+  return { id, url, title, updatedAt, viewCount };
 }

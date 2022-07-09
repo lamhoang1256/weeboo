@@ -6,7 +6,7 @@ interface CommentItemProps {
 }
 
 const CommentItem = ({ comment }: CommentItemProps) => {
-  const { id, username, avatar, content, time } = comment;
+  const { username, avatar, content, time } = comment;
   return (
     <div className="flex gap-x-4 mt-3">
       <Image url={avatar} alt="avatar" className="h-11 w-11 rounded-full" />

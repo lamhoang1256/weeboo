@@ -9,3 +9,12 @@ export const getHomeData = async () => {
     console.log(error);
   }
 };
+
+export const getComicDetail = async (slug: string) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/comic/${slug}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

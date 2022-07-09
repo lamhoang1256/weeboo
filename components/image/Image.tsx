@@ -9,25 +9,15 @@ interface ImageProps {
   className?: string;
 }
 
-const Image = ({ to, url, alt = "", className = "" }: ImageProps) => {
+const Image = ({ to, url, alt = "", className = "w-full h-full" }: ImageProps) => {
   if (to) {
     return (
       <Link href={to}>
-        <LazyLoadImage
-          src={url}
-          alt={alt}
-          className={classNames("w-full h-full object-cover", className)}
-        />
+        <LazyLoadImage src={url} alt={alt} className={classNames("object-cover", className)} />
       </Link>
     );
   }
-  return (
-    <LazyLoadImage
-      src={url}
-      alt={alt}
-      className={classNames("w-full h-full object-cover", className)}
-    />
-  );
+  return <LazyLoadImage src={url} alt={alt} className={classNames("object-cover", className)} />;
 };
 
 export default Image;

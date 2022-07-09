@@ -8,6 +8,8 @@ import ComicFeatureItem from "./ComicFeatureItem";
 import ComicNewestItem from "./ComicNewestItem";
 import ComicEpisodeItem from "./ComicEpisodeItem";
 import ComicEpisodes from "./ComicEpisodes";
+import ComicUpdatedAt from "./ComicUpdatedAt";
+import ComicCountNum from "./ComicCountNum";
 export {
   ComicImage,
   ComicTitle,
@@ -19,4 +21,6 @@ export {
   ComicNewestItem,
   ComicEpisodeItem,
   ComicEpisodes,
+  ComicUpdatedAt,
+  ComicCountNum,
 };

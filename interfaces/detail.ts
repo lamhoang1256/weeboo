@@ -15,7 +15,7 @@ export interface IDetail {
 export interface IOptionChapter {
   id: string;
   url: string;
-  chapter: string;
+  title: string;
   updatedAt: string;
   viewCount: string;
 }

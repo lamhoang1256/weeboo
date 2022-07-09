@@ -37,6 +37,7 @@ async function fetchWatch(url: string) {
     const imageUrls: string[] = [];
     const comicDetail: IWatchDetail[] = [];
     const comments: IWatchComment[] = [];
+
     // get comic detail information
     $(".reading .container .top")
       .first()
@@ -72,7 +73,7 @@ function getImageChapter(node: any) {
   return imageUrl;
 }
 
-function getComment(node: any) {
+export function getComment(node: any) {
   const id = node.attr("id")?.replace("comment_", "");
   const username = node.find(".authorname").text();
   const avatar = node
