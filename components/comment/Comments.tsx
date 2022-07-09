@@ -8,7 +8,7 @@ interface CommentsProps {
 const Comments = ({ comments }: CommentsProps) => {
   return (
     <div className="my-6">
-      <h2 className="mb-4">Comments</h2>
+      <h2 className="mb-4 font-bold">Bình luận</h2>
       {comments?.map((comment) => (
         <CommentItem comment={comment} key={comment.id} />
       ))}

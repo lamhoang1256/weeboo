@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { IDetail, IOptionChapter } from "interfaces/detail";
-import { IWatchComment } from "interfaces/watch";
+import { ICommentReplyItem, IWatchComment } from "interfaces/watch";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getComment } from "./[chapter]/[id]";
+import { getComment, getCommentReply } from "./[chapter]/[id]";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface DetailResponse {
@@ -76,16 +76,21 @@ async function fetchDetailComic(url: string) {
           listChapter.push(chapter);
         });
 
-      $(item)
-        .find(".comment-list")
-        .each(function (index, element) {
-          $(element)
-            .find(".item")
-            .each(function (index, element) {
-              const comment = getComment($(element).first());
-              comments.push(comment);
-            });
-        });
+      $(".comment-list").each(function (index, element) {
+        $(element)
+          .find(".item.clearfix")
+          .each(function (index, element) {
+            let replyComments: ICommentReplyItem[] = [];
+            const comment = getComment($(element).first());
+            $(element)
+              .find(".item.child")
+              .each(function (index, element) {
+                const replyComment = getCommentReply($(element));
+                replyComments.push(replyComment);
+              });
+            comments.push({ ...comment, replyComments });
+          });
+      });
     });
     return { detail, listChapter, comments };
   } catch (error) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { IWatchComment, IWatchDetail } from "interfaces/watch";
+import { ICommentReplyItem, IWatchComment, IWatchDetail } from "interfaces/watch";
 import type { NextApiRequest, NextApiResponse } from "next";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
@@ -35,7 +35,7 @@ async function fetchWatch(url: string) {
     const html = response.data;
     const $ = cheerio.load(html);
     const imageUrls: string[] = [];
-    const comicDetail: IWatchDetail[] = [];
+    let comicDetail: IWatchDetail = {} as IWatchDetail;
     const comments: IWatchComment[] = [];
     // get comic detail information
     $(".reading .container .top")
@@ -43,8 +43,9 @@ async function fetchWatch(url: string) {
       .each(function (index, element) {
         const urlComic = $(element).find(".txt-primary > a").attr("href") || "";
         const title = $(element).find(".txt-primary > a").text();
+        const chapter = $(element).find(".txt-primary > span").text();
         const updated = $(element).find("i").text();
-        comicDetail.push({ title, updated, urlComic });
+        comicDetail = { title, updated, chapter, urlComic };
       });
     // get urls reading image chapter
     $(".reading-detail .page-chapter").each(function (index, element) {
@@ -52,12 +53,19 @@ async function fetchWatch(url: string) {
       imageUrls.push(imageUrl);
     });
     // get comments about chapter
-    $(".comment .comment-list").each(function (index, element) {
+    $(".comment-list").each(function (index, element) {
       $(element)
-        .find(".item")
+        .find(".item.clearfix")
         .each(function (index, element) {
+          let replyComments: ICommentReplyItem[] = [];
           const comment = getComment($(element).first());
-          comments.push(comment);
+          $(element)
+            .find(".item.child")
+            .each(function (index, element) {
+              const replyComment = getCommentReply($(element));
+              replyComments.push(replyComment);
+            });
+          comments.push({ ...comment, replyComments });
         });
     });
     return { comicDetail, imageUrls, comments };
@@ -74,12 +82,26 @@ function getImageChapter(node: any) {
 
 export function getComment(node: any) {
   const id = node.attr("id")?.replace("comment_", "");
+  const username = node.find(".authorname").first().text();
+  const avatar = node
+    .find("img")
+    .first()
+    .attr("data-original")
+    ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
+  const content = node.find(".comment-content").first().text();
+  const time = node.find("abbr").first().text().trim();
+  return { id, username, avatar, content, time };
+}
+
+export function getCommentReply(node: any) {
+  const id = node.attr("id")?.replace("comment_", "");
   const username = node.find(".authorname").text();
   const avatar = node
     .find("img")
     .attr("data-original")
     ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
-  const content = node.find(".comment-content").text();
+  const mentionUser = node.find(".comment-content .mention-user").text().trim();
+  const content = node.find(".comment-content").text().trim().replace(mentionUser, "");
   const time = node.find("abbr").text().trim();
-  return { id, username, avatar, content, time };
+  return { id, username, avatar, content, time, mentionUser };
 }

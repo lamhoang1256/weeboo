@@ -18,3 +18,12 @@ export const getComicDetail = async (slug: string) => {
     console.log(error);
   }
 };
+
+export const getComicChapter = async (slug: string, chapter: string, id: string) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/comic/${slug}/${chapter}/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
