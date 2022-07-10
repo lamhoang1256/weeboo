@@ -1,4 +1,4 @@
-const IconStar = ({ className = "h-5 h-5" }) => {
+const IconStar = ({ className = "w-5 h-5" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

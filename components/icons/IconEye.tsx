@@ -1,4 +1,4 @@
-const IconEye = ({ className = "h-4 h-4" }) => {
+const IconEye = ({ className = "w-4 h-4" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

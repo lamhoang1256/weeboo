@@ -14,6 +14,9 @@ import {
   ComicUpdatedAt,
   ComicCountNum,
 } from "modules/comic";
+import { Button } from "components/button";
+import { useRouter } from "next/router";
+import { path } from "constants/path";
 
 interface ComicDetailProps {
   detail: IComicDetail;
@@ -22,6 +25,17 @@ interface ComicDetailProps {
 }
 
 const ComicDetail = ({ detail, listChapter, comments }: ComicDetailProps) => {
+  const router = useRouter();
+  const viewFirstChapter = () => {
+    const totalChapter = listChapter.length;
+    const firstChapter = listChapter[totalChapter - 1];
+    router.push(`${path.read}/${firstChapter.href}`);
+  };
+  const viewLastChapter = () => {
+    const lastChapter = listChapter[0];
+    router.push(`${path.read}/${lastChapter.href}`);
+  };
+
   return (
     <Layout title={detail.title}>
       <div className="layout-container">
@@ -44,6 +58,22 @@ const ComicDetail = ({ detail, listChapter, comments }: ComicDetailProps) => {
             <ComicMetaGroup label="Tác giả" content={detail?.author}></ComicMetaGroup>
             <ComicMetaGroup label="Tình trạng" content={detail?.status}></ComicMetaGroup>
             <ComicMetaGroup label="Thể loại" content={detail?.categories}></ComicMetaGroup>
+            <div className="flex flex-wrap gap-2 mt-4">
+              <Button className="h-[40px]" handleOnClick={viewFirstChapter}>
+                Xem từ đầu
+              </Button>
+              <Button className="h-[40px]" handleOnClick={viewLastChapter}>
+                Xem mới nhất
+              </Button>
+              <Button className="h-[40px]">Đọc tiếp</Button>
+            </div>
+            <div className="flex gap-x-2 mt-4 items-center">
+              <Button className="h-[40px]">Theo dõi</Button>
+              <p>
+                <span className="font-bold">{detail?.followCount} </span>
+                đã theo dõi
+              </p>
+            </div>
           </div>
         </div>
         <ComicDesc label="Tóm tắt">{detail?.description}</ComicDesc>

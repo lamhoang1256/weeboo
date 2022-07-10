@@ -1,4 +1,4 @@
-const IconLike = ({ className = "h-4 h-4" }) => {
+const IconLike = ({ className = "w-4 h-4" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
