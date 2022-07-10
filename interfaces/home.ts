@@ -9,7 +9,7 @@ export interface IFeatureComics {
   headline: string;
   comics: IFeatureComic[];
 }
-export interface INewestComic {
+export interface IComicItem {
   slug: string;
   title: string;
   posterUrl: string;
@@ -17,7 +17,7 @@ export interface INewestComic {
   updatedAgo: string;
   newestUrl: string;
 }
-export interface INewestComics {
+export interface IComicItems {
   headline: string;
-  comics: INewestComic[];
+  comics: IComicItem[];
 }

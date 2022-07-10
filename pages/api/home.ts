@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { INewestComic, INewestComics, IFeatureComic, IFeatureComics } from "interfaces/home";
+import { IComicItem, IComicItems, IFeatureComic, IFeatureComics } from "interfaces/home";
 
 const URL = process.env.URL_CRAWL || "";
 interface HomeResponse {
@@ -33,7 +33,7 @@ async function getHome() {
     const html = response.data;
     const $ = cheerio.load(html);
     let topComics: IFeatureComics = { headline: "", comics: [] };
-    let newestComics: INewestComics = { headline: "", comics: [] };
+    let newestComics: IComicItems = { headline: "", comics: [] };
 
     // get all top comics
     $(".top-comics", html).each(function () {
@@ -49,7 +49,7 @@ async function getHome() {
     });
     // get all newest comics
     $("#ctl00_divCenter .ModuleContent", html).each(function () {
-      let comics: INewestComic[] = [];
+      let comics: IComicItem[] = [];
       const headline: string = $(this).find(".page-title").text();
       $(this)
         .find(".item")
@@ -59,7 +59,6 @@ async function getHome() {
         });
       newestComics = { headline, comics };
     });
-
     return { topComics, newestComics };
   } catch (error) {
     console.log(error);
@@ -75,7 +74,7 @@ function getFeatureComic(node: any) {
   return { slug, title, posterUrl, newestChapter, updatedAgo };
 }
 
-function getNewestComic(node: any) {
+export function getNewestComic(node: any) {
   const slug = node.find(".image > a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
   const title = node.find(".jtip").text();
   const posterUrl = node.find(".image > a > img").attr("data-original") || "";

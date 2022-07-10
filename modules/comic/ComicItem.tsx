@@ -1,14 +1,14 @@
-import { INewestComic } from "interfaces/home";
+import { IComicItem } from "interfaces/home";
 import { path } from "constants/path";
 import ComicImage from "./ComicImage";
 import ComicMeta from "./ComicMeta";
 import ComicTitle from "./ComicTitle";
 
-interface ComicNewestItemProps {
-  comic: INewestComic;
+interface ComicItemProps {
+  comic: IComicItem;
 }
 
-const ComicNewestItem = ({ comic }: ComicNewestItemProps) => {
+const ComicItem = ({ comic }: ComicItemProps) => {
   const { posterUrl, slug, title, newestChapter, newestUrl, updatedAgo } = comic;
   const meta = {
     newChapter: newestChapter,
@@ -24,4 +24,4 @@ const ComicNewestItem = ({ comic }: ComicNewestItemProps) => {
   );
 };
 
-export default ComicNewestItem;
+export default ComicItem;

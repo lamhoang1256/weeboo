@@ -1,13 +1,13 @@
-import { Comments } from "components/comment";
-import { Layout } from "components/layouts";
-import { getComicChapter, getComicDetail } from "config/api";
 import { path } from "constants/path";
+import { getComicChapter, getComicDetail } from "config/api";
 import { IDetail, IOptionChapter } from "interfaces/detail";
 import { IImageChapter, IComment, IWatchDetail } from "interfaces/read";
+import { Layout } from "components/layouts";
+import { Comments } from "components/comment";
 import { ComicTitle, ComicUpdatedAt, ComicReading } from "modules/comic";
 import { ReadNavigation, ReadSelect } from "modules/read";
 
-interface ComicChapterProps {
+interface ReadPageProps {
   imageUrls: IImageChapter[];
   detailChapter: IWatchDetail;
   comments: IComment[];
@@ -18,10 +18,9 @@ interface ComicChapterProps {
   };
 }
 
-const ComicChapter = ({ detailChapter, imageUrls, comments, comicDetail }: ComicChapterProps) => {
+const ReadPage = ({ detailChapter, imageUrls, comments, comicDetail }: ReadPageProps) => {
   const { title, urlComic, chapter, updated } = detailChapter;
   const { listChapter } = comicDetail;
-
   return (
     <Layout title={`${title} ${chapter}`}>
       <div className="layout-container">
@@ -34,6 +33,10 @@ const ComicChapter = ({ detailChapter, imageUrls, comments, comicDetail }: Comic
           <ReadNavigation listChapter={listChapter} />
         </div>
         <ComicReading imageUrls={imageUrls} />
+        <div className="mt-8 flex justify-between">
+          <ReadSelect listChapter={listChapter} />
+          <ReadNavigation listChapter={listChapter} />
+        </div>
         <Comments comments={comments} />
       </div>
     </Layout>
@@ -51,4 +54,4 @@ export async function getServerSideProps({ params }: any) {
   };
 }
 
-export default ComicChapter;
+export default ReadPage;

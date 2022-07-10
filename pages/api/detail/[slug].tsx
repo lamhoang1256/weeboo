@@ -4,7 +4,6 @@ import { IDetail, IOptionChapter } from "interfaces/detail";
 import { ICommentReply, IComment } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComment, getCommentReply } from "pages/api/read/[slug]/[chapter]/[id]";
-
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface DetailResponse {
@@ -24,7 +23,7 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await fetchDetailComic(`${BASE_URL}/${slug}`);
+    const data = await fetchComicDetail(`${BASE_URL}/${slug}`);
     return res.status(200).json({ data });
   } catch (error: any) {
     console.log("Fetching topComics failed: ", error);
@@ -32,7 +31,7 @@ export default async function handler(
   }
 }
 
-async function fetchDetailComic(url: string) {
+async function fetchComicDetail(url: string) {
   try {
     const response = await axios.get(url);
     const html = response.data;

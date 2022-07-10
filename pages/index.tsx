@@ -1,12 +1,12 @@
 import { getHomeData } from "config/api";
 import { Layout } from "components/layouts";
 import { HomeFeature, HomeNewest } from "modules/home";
-import { INewestComics, IFeatureComics } from "interfaces/home";
+import { IComicItems, IFeatureComics } from "interfaces/home";
 
 interface HomeProps {
   data: {
     topComics: IFeatureComics;
-    newestComics: INewestComics;
+    newestComics: IComicItems;
   };
 }
 

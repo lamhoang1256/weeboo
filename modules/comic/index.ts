@@ -6,9 +6,10 @@ import ComicMetaGroup from "./ComicMetaGroup";
 import ComicRating from "./ComicRating";
 import ComicReading from "./ComicReading";
 import ComicFeatureItem from "./ComicFeatureItem";
-import ComicNewestItem from "./ComicNewestItem";
+import ComicItem from "./ComicItem";
 import ComicUpdatedAt from "./ComicUpdatedAt";
 import ComicCountNum from "./ComicCountNum";
+import ComicGrid from "./ComicGrid";
 export {
   ComicImage,
   ComicTitle,
@@ -18,7 +19,8 @@ export {
   ComicMeta,
   ComicMetaGroup,
   ComicFeatureItem,
-  ComicNewestItem,
+  ComicItem,
   ComicUpdatedAt,
   ComicCountNum,
+  ComicGrid,
 };

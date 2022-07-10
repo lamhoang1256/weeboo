@@ -27,3 +27,12 @@ export const getComicChapter = async (slug: string, chapter: string, id: string)
     console.log(error);
   }
 };
+
+export const getSearchData = async (searchValue: string) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/search?keyword=${encodeURI(searchValue)}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
