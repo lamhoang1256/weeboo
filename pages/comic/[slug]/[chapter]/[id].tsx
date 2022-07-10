@@ -5,6 +5,7 @@ import { getComicChapter } from "config/api";
 import { IWatchComment, IWatchDetail } from "interfaces/watch";
 import { ComicTitle, ComicUpdatedAt } from "modules/comic";
 import { Comments } from "components/comment";
+import { path } from "constants/path";
 
 interface ComicChapterProps {
   imageUrls: string[];
@@ -17,8 +18,13 @@ const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) =
     <Layout title={`${comicDetail?.title} ${comicDetail?.chapter}`}>
       <div className="layout-container">
         <div className="mt-2 flex flex-wrap gap-x-2">
-          <ComicTitle className="text-2xl">{comicDetail?.title}</ComicTitle>
-          <span className="text-2xl">{comicDetail?.chapter}</span>
+          <ComicTitle
+            to={`${path.detail}/${comicDetail?.urlComic}`}
+            className="text-xl lg:text-2xl"
+          >
+            {comicDetail?.title}
+          </ComicTitle>
+          <span className="text-xl lg:text-2xl">{comicDetail?.chapter}</span>
         </div>
         <ComicUpdatedAt className="block mt-1">{comicDetail?.updated}</ComicUpdatedAt>
         <div className="max-w-[770px] mx-auto mt-8">

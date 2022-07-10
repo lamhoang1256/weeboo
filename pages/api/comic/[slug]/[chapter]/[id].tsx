@@ -41,7 +41,11 @@ async function fetchWatch(url: string) {
     $(".reading .container .top")
       .first()
       .each(function (index, element) {
-        const urlComic = $(element).find(".txt-primary > a").attr("href") || "";
+        const urlComic =
+          $(element)
+            .find(".txt-primary > a")
+            .attr("href")
+            ?.replace("http://www.nettruyenco.com/truyen-tranh/", "") || "";
         const title = $(element).find(".txt-primary > a").text();
         const chapter = $(element).find(".txt-primary > span").text();
         const updated = $(element).find("i").text();
@@ -76,7 +80,7 @@ async function fetchWatch(url: string) {
 
 function getImageChapter(node: any) {
   const imageOriginal = node.find("img").attr("data-original");
-  const imageUrl = imageOriginal?.replace("//p.nhattruyenmoi.com", "http://p.nhattruyenmoi.com");
+  const imageUrl = imageOriginal?.replace("//p.nhattruyenmoi.com", "https://p.nhattruyenmoi.com");
   return imageUrl;
 }
 
