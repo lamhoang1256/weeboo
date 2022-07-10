@@ -30,7 +30,11 @@ const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) =
         <div className="max-w-[770px] mx-auto mt-8">
           <div className="mx-[-15px]">
             {imageUrls?.map((image) => (
-              <Image url={image} key={uuidv4()} alt={comicDetail?.title} />
+              <Image
+                url={`http://localhost:3000/api/images?url=${encodeURIComponent(image)}`}
+                key={uuidv4()}
+                alt={comicDetail?.title}
+              />
             ))}
           </div>
         </div>

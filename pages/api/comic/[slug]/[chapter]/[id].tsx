@@ -80,7 +80,7 @@ async function fetchWatch(url: string) {
 
 function getImageChapter(node: any) {
   const imageOriginal = node.find("img").attr("data-original");
-  const imageUrl = imageOriginal?.replace("//p.nhattruyenmoi.com", "https://p.nhattruyenmoi.com");
+  const imageUrl = imageOriginal?.replace("//p.nhattruyenmoi.com", "http://p.nhattruyenmoi.com");
   return imageUrl;
 }
 
