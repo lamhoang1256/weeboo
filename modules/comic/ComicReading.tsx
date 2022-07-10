@@ -1,5 +1,5 @@
 import { Image } from "components/image";
-import { IImageChapter } from "interfaces/watch";
+import { IImageChapter } from "interfaces/read";
 import { v4 as uuidv4 } from "uuid";
 
 interface ComicReadingProps {

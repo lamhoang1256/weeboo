@@ -10,24 +10,14 @@ export interface ICommentItem {
   username: string;
   avatar: string;
   content: string;
-  time: string;
+  createdAt: string;
 }
-export interface ICommentReplyItem {
-  id: string;
-  username: string;
-  avatar: string;
-  content: string;
-  time: string;
+export interface ICommentReply extends ICommentItem {
   mentionUser: string;
 }
 
-export interface IWatchComment {
-  id: string;
-  username: string;
-  avatar: string;
-  content: string;
-  time: string;
-  replyComments: ICommentReplyItem[];
+export interface IComment extends ICommentItem {
+  replyComments: ICommentReply[];
 }
 
 export interface IImageChapter {

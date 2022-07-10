@@ -1,11 +1,11 @@
 import { path } from "constants/path";
-import { ITopComic } from "interfaces/home";
+import { IFeatureComic } from "interfaces/home";
 import Link from "next/link";
 import ComicImage from "./ComicImage";
 import ComicMeta from "./ComicMeta";
 
 interface ComicFeatureItemProps {
-  data: ITopComic;
+  data: IFeatureComic;
 }
 
 const ComicFeatureItem = ({ data }: ComicFeatureItemProps) => {

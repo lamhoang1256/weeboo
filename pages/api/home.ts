@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { INewestComic, INewestComics, ITopComic, ITopComics } from "interfaces/home";
+import { INewestComic, INewestComics, IFeatureComic, IFeatureComics } from "interfaces/home";
 
 const URL = process.env.URL_CRAWL || "";
 interface HomeResponse {
@@ -32,17 +32,17 @@ async function getHome() {
     const response = await axios.get(URL);
     const html = response.data;
     const $ = cheerio.load(html);
-    let topComics: ITopComics = { headline: "", comics: [] };
+    let topComics: IFeatureComics = { headline: "", comics: [] };
     let newestComics: INewestComics = { headline: "", comics: [] };
 
     // get all top comics
     $(".top-comics", html).each(function () {
-      let comics: ITopComic[] = [];
+      let comics: IFeatureComic[] = [];
       const headline = $(this).find("h2.page-title").text();
       $(this)
         .find(".item")
         .each(function (index, element) {
-          const comic = getTopComic($(element));
+          const comic = getFeatureComic($(element));
           comics.push(comic);
         });
       topComics = { headline, comics };
@@ -66,7 +66,7 @@ async function getHome() {
   }
 }
 
-function getTopComic(node: any) {
+function getFeatureComic(node: any) {
   const slug = node.find("a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
   const title = node.find(".slide-caption h3 a").text();
   const posterUrl = node.find(".lazyOwl").attr("data-src") || "";

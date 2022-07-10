@@ -1,7 +1,7 @@
 import { getComicDetail } from "config/api";
 import { IDetail, IOptionChapter } from "interfaces/detail";
 import { IconEye, IconLike } from "components/icons";
-import { IWatchComment } from "interfaces/watch";
+import { IComment } from "interfaces/read";
 import { Comments } from "components/comment";
 import { Layout } from "components/layouts";
 import { DetailEpisodes } from "modules/detail";
@@ -18,7 +18,7 @@ import {
 interface ComicDetailProps {
   detail: IDetail;
   listChapter: IOptionChapter[];
-  comments: IWatchComment[];
+  comments: IComment[];
 }
 
 const ComicDetail = ({ detail, listChapter, comments }: ComicDetailProps) => {

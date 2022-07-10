@@ -7,9 +7,9 @@ interface DetailEpisodeItemProps {
 }
 
 const DetailEpisodeItem = ({ episode }: DetailEpisodeItemProps) => {
-  const { title, url, updatedAt, viewCount } = episode;
+  const { title, href, updatedAt, viewCount } = episode;
   return (
-    <Link href={url}>
+    <Link href={href}>
       <a className="bg-[#f8f8f8] p-4 rounded-[10px] font-semibold">
         <h4>{title}</h4>
         <div className="flex justify-between text-[#999]">

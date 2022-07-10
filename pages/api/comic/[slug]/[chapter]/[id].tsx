@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { ICommentReplyItem, IImageChapter, IWatchComment, IWatchDetail } from "interfaces/watch";
+import { ICommentReply, IImageChapter, IComment, IWatchDetail } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
@@ -36,7 +36,7 @@ async function fetchWatch(url: string) {
     const $ = cheerio.load(html);
     const imageUrls: IImageChapter[] = [];
     let comicDetail: IWatchDetail = {} as IWatchDetail;
-    const comments: IWatchComment[] = [];
+    const comments: IComment[] = [];
     // get comic detail information
     $(".reading .container .top")
       .first()
@@ -61,7 +61,7 @@ async function fetchWatch(url: string) {
       $(element)
         .find(".item.clearfix")
         .each(function (index, element) {
-          let replyComments: ICommentReplyItem[] = [];
+          let replyComments: ICommentReply[] = [];
           const comment = getComment($(element).first());
           $(element)
             .find(".item.child")
@@ -93,8 +93,8 @@ export function getComment(node: any) {
     .attr("data-original")
     ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
   const content = node.find(".comment-content").first().text();
-  const time = node.find("abbr").first().text().trim();
-  return { id, username, avatar, content, time };
+  const createdAt = node.find("abbr").first().text().trim();
+  return { id, username, avatar, content, createdAt };
 }
 
 export function getCommentReply(node: any) {
@@ -106,6 +106,6 @@ export function getCommentReply(node: any) {
     ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
   const mentionUser = node.find(".comment-content .mention-user").text().trim();
   const content = node.find(".comment-content").text().trim().replace(mentionUser, "");
-  const time = node.find("abbr").text().trim();
-  return { id, username, avatar, content, time, mentionUser };
+  const createdAt = node.find("abbr").text().trim();
+  return { id, username, avatar, content, createdAt, mentionUser };
 }

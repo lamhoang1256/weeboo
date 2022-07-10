@@ -1,8 +1,8 @@
-import { IWatchComment } from "interfaces/watch";
+import { IComment } from "interfaces/read";
 import CommentItem from "./CommentItem";
 
 interface CommentsProps {
-  comments: IWatchComment[];
+  comments: IComment[];
 }
 
 const Comments = ({ comments }: CommentsProps) => {

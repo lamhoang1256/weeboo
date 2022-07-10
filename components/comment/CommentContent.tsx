@@ -1,11 +1,11 @@
 interface CommentContentProps {
   username: string;
   content: string;
-  time: string;
+  createdAt: string;
   mentionUser?: string;
 }
 
-const CommentContent = ({ username, content, time, mentionUser }: CommentContentProps) => {
+const CommentContent = ({ username, content, createdAt, mentionUser }: CommentContentProps) => {
   return (
     <div>
       <div className="bg-[#f5f5f5] px-[14px] py-[12px] rounded-md">
@@ -15,7 +15,7 @@ const CommentContent = ({ username, content, time, mentionUser }: CommentContent
           {content === "" ? "Truyện hay" : content}
         </p>
       </div>
-      <span className="text-[#8a8a8f] text-sm">{time}</span>
+      <span className="text-[#8a8a8f] text-sm">{createdAt}</span>
     </div>
   );
 };

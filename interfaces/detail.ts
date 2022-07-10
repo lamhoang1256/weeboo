@@ -11,10 +11,9 @@ export interface IDetail {
   followCount: string;
   description: string;
 }
-
 export interface IOptionChapter {
   id: string;
-  url: string;
+  href: string;
   title: string;
   updatedAt: string;
   viewCount: string;

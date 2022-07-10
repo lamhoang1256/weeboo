@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { IDetail, IOptionChapter } from "interfaces/detail";
-import { ICommentReplyItem, IWatchComment } from "interfaces/watch";
+import { ICommentReply, IComment } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComment, getCommentReply } from "./[chapter]/[id]";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
@@ -38,7 +38,7 @@ async function fetchDetailComic(url: string) {
     const $ = cheerio.load(html);
     let detail: IDetail = {} as IDetail;
     let listChapter: IOptionChapter[] = [];
-    const comments: IWatchComment[] = [];
+    const comments: IComment[] = [];
 
     $("#ctl00_divCenter").each(function (index, item) {
       const title = $(item).find(".title-detail").text();
@@ -80,7 +80,7 @@ async function fetchDetailComic(url: string) {
         $(element)
           .find(".item.clearfix")
           .each(function (index, element) {
-            let replyComments: ICommentReplyItem[] = [];
+            let replyComments: ICommentReply[] = [];
             const comment = getComment($(element).first());
             $(element)
               .find(".item.child")
@@ -100,9 +100,9 @@ async function fetchDetailComic(url: string) {
 
 function getListChapter(node: any) {
   const id = node.find(".chapter a").attr("data-id");
-  const url = node.find(".chapter a").attr("href").split("/truyen-tranh/")[1] || "";
+  const href = node.find(".chapter a").attr("href").split("/truyen-tranh/")[1] || "";
   const title = node.find(".chapter a").text();
   const updatedAt = node.find(".col-xs-4").text();
   const viewCount = node.find(".col-xs-3").text();
-  return { id, url, title, updatedAt, viewCount };
+  return { id, href, title, updatedAt, viewCount };
 }

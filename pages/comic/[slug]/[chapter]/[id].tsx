@@ -2,14 +2,14 @@ import { Comments } from "components/comment";
 import { Layout } from "components/layouts";
 import { getComicChapter } from "config/api";
 import { path } from "constants/path";
-import { IImageChapter, IWatchComment, IWatchDetail } from "interfaces/watch";
+import { IImageChapter, IComment, IWatchDetail } from "interfaces/read";
 import { ComicTitle, ComicUpdatedAt } from "modules/comic";
 import ComicReading from "modules/comic/ComicReading";
 
 interface ComicChapterProps {
   imageUrls: IImageChapter[];
   comicDetail: IWatchDetail;
-  comments: IWatchComment[];
+  comments: IComment[];
 }
 
 const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) => {
