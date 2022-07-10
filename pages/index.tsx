@@ -5,7 +5,7 @@ import { IComicItems, IFeatureComics } from "interfaces/home";
 
 interface HomeProps {
   data: {
-    topComics: IFeatureComics;
+    featureComics: IFeatureComics;
     newestComics: IComicItems;
   };
 }
@@ -14,7 +14,7 @@ const Home = ({ data }: HomeProps) => {
   return (
     <Layout title="HomePage">
       <div className="layout-container">
-        <HomeFeature topComics={data.topComics}></HomeFeature>
+        <HomeFeature featureComics={data.featureComics}></HomeFeature>
         <HomeNewest data={data.newestComics}></HomeNewest>
       </div>
     </Layout>

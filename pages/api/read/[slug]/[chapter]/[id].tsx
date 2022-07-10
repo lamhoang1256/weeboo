@@ -1,7 +1,8 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { ICommentReply, IImageChapter, IComment, IWatchDetail } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { ICommentReply, IImageChapter, IComment, IChapterReadDetail } from "interfaces/read";
+import { getCommentItem, getCommentReplyItem, getImagesReading } from "utils/crawl";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface WatchResponse {
@@ -21,91 +22,53 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await fetchWatch(`${BASE_URL}/${slug}/${chapter}/${id}`);
+    const data = await crawlDataReadChapterPage(`${BASE_URL}/${slug}/${chapter}/${id}`);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching topComics failed: ", error);
+    console.log("Fetching featureComics failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-async function fetchWatch(url: string) {
+async function crawlDataReadChapterPage(url: string) {
   try {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
     const imageUrls: IImageChapter[] = [];
-    let detailChapter: IWatchDetail = {} as IWatchDetail;
+    let detailChapter: IChapterReadDetail = {} as IChapterReadDetail;
     const comments: IComment[] = [];
-    // get comic detail information
+    // get the basic information of the chapter
     $(".reading .container .top")
       .first()
-      .each(function (index, element) {
-        const urlComic =
-          $(element)
-            .find(".txt-primary > a")
-            .attr("href")
-            ?.replace("http://www.nettruyenco.com/truyen-tranh/", "") || "";
-        const title = $(element).find(".txt-primary > a").text();
-        const chapter = $(element).find(".txt-primary > span").text();
-        const updated = $(element).find("i").text();
-        detailChapter = { title, updated, chapter, urlComic };
+      .each(function (index, item) {
+        const urlOriginal = "http://www.nettruyenco.com/truyen-tranh/";
+        const blockH1 = $(item).find("h1.txt-primary");
+        const urlComic = blockH1.find("a").attr("href")?.replace(urlOriginal, "") || "";
+        const title = blockH1.find("a").text();
+        const chapter = blockH1.find("span").text();
+        const updatedAt = $(item).find("i").text();
+        detailChapter = { title, updatedAt, chapter, urlComic };
       });
-    // get urls reading image chapter
+    // get urls reading image of this chapter
     $(".reading-detail .page-chapter").each(function (index, element) {
-      const imageUrl = getImageChapter($(element));
+      const imageUrl = getImagesReading($(element));
       imageUrls.push(imageUrl);
     });
-    // get comments about chapter
-    $(".comment-list").each(function (index, element) {
+    // get list comment about this chapter
+    $(".comment-list .item.clearfix").each(function (index, element) {
+      let replyComments: ICommentReply[] = [];
+      const comment = getCommentItem($(element).first());
       $(element)
-        .find(".item.clearfix")
+        .find(".item.child")
         .each(function (index, element) {
-          let replyComments: ICommentReply[] = [];
-          const comment = getComment($(element).first());
-          $(element)
-            .find(".item.child")
-            .each(function (index, element) {
-              const replyComment = getCommentReply($(element));
-              replyComments.push(replyComment);
-            });
-          comments.push({ ...comment, replyComments });
+          const replyComment = getCommentReplyItem($(element));
+          replyComments.push(replyComment);
         });
+      comments.push({ ...comment, replyComments });
     });
     return { detailChapter, imageUrls, comments };
   } catch (error) {
     console.log(error);
   }
-}
-
-function getImageChapter(node: any) {
-  const imageUrl = node.find("img").attr("data-original");
-  const alt = node.find("img").attr("alt");
-  return { alt, imageUrl };
-}
-
-export function getComment(node: any) {
-  const id = node.attr("id")?.replace("comment_", "");
-  const username = node.find(".authorname").first().text();
-  const avatar = node
-    .find("img")
-    .first()
-    .attr("data-original")
-    ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
-  const content = node.find(".comment-content").first().text();
-  const createdAt = node.find("abbr").first().text().trim();
-  return { id, username, avatar, content, createdAt };
-}
-
-export function getCommentReply(node: any) {
-  const id = node.attr("id")?.replace("comment_", "");
-  const username = node.find(".authorname").text();
-  const avatar = node
-    .find("img")
-    .attr("data-original")
-    ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
-  const mentionUser = node.find(".comment-content .mention-user").text().trim();
-  const content = node.find(".comment-content").text().trim().replace(mentionUser, "");
-  const createdAt = node.find("abbr").text().trim();
-  return { id, username, avatar, content, createdAt, mentionUser };
 }

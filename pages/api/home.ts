@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { IComicItem, IComicItems, IFeatureComic, IFeatureComics } from "interfaces/home";
+import { getComicFeatureItem, getComicItem } from "utils/crawl";
 
 const URL = process.env.URL_CRAWL || "";
 interface HomeResponse {
@@ -19,68 +20,47 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await getHome();
+    const data = await crawlDataHomePage();
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching topComics failed: ", error);
+    console.log("Fetching featureComics failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-async function getHome() {
+async function crawlDataHomePage() {
   try {
     const response = await axios.get(URL);
     const html = response.data;
     const $ = cheerio.load(html);
-    let topComics: IFeatureComics = { headline: "", comics: [] };
-    let newestComics: IComicItems = { headline: "", comics: [] };
-
-    // get all top comics
+    let featureComics: IFeatureComics = {} as IFeatureComics;
+    let newestComics: IComicItems = {} as IComicItems;
+    // get a list of featured comics
     $(".top-comics", html).each(function () {
       let comics: IFeatureComic[] = [];
       const headline = $(this).find("h2.page-title").text();
       $(this)
         .find(".item")
         .each(function (index, element) {
-          const comic = getFeatureComic($(element));
+          const comic = getComicFeatureItem($(element));
           comics.push(comic);
         });
-      topComics = { headline, comics };
+      featureComics = { headline, comics };
     });
-    // get all newest comics
+    // get the list of newly updated comics
     $("#ctl00_divCenter .ModuleContent", html).each(function () {
       let comics: IComicItem[] = [];
-      const headline: string = $(this).find(".page-title").text();
+      const headline = $(this).find(".page-title").text();
       $(this)
         .find(".item")
         .each(function (index, element) {
-          const comic = getNewestComic($(element));
+          const comic = getComicItem($(element));
           comics.push(comic);
         });
       newestComics = { headline, comics };
     });
-    return { topComics, newestComics };
+    return { featureComics, newestComics };
   } catch (error) {
     console.log(error);
   }
-}
-
-function getFeatureComic(node: any) {
-  const slug = node.find("a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  const title = node.find(".slide-caption h3 a").text();
-  const posterUrl = node.find(".lazyOwl").attr("data-src") || "";
-  const newestChapter = node.find(".slide-caption > a").text();
-  const updatedAgo = node.find(".slide-caption > .time").text().trim();
-  return { slug, title, posterUrl, newestChapter, updatedAgo };
-}
-
-export function getNewestComic(node: any) {
-  const slug = node.find(".image > a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  const title = node.find(".jtip").text();
-  const posterUrl = node.find(".image > a > img").attr("data-original") || "";
-  const updatedAgo = node.find(".comic-item .chapter .time").first().text();
-  const newestEle = node.find(".comic-item .chapter a").first();
-  const newestChapter = newestEle.text();
-  const newestUrl = newestEle.attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  return { slug, title, posterUrl, newestChapter, updatedAgo, newestUrl };
 }

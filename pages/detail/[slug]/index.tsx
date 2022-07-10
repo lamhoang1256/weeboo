@@ -1,5 +1,5 @@
 import { getComicDetail } from "config/api";
-import { IDetail, IOptionChapter } from "interfaces/detail";
+import { IComicDetail, IOptionChapter } from "interfaces/detail";
 import { IconEye, IconLike } from "components/icons";
 import { IComment } from "interfaces/read";
 import { Comments } from "components/comment";
@@ -16,7 +16,7 @@ import {
 } from "modules/comic";
 
 interface ComicDetailProps {
-  detail: IDetail;
+  detail: IComicDetail;
   listChapter: IOptionChapter[];
   comments: IComment[];
 }

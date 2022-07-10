@@ -1,4 +1,4 @@
-export interface IDetail {
+export interface IComicDetail {
   title: string;
   updatedAt: string;
   posterUrl: string;

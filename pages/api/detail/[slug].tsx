@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { IDetail, IOptionChapter } from "interfaces/detail";
+import { IComicDetail, IOptionChapter } from "interfaces/detail";
 import { ICommentReply, IComment } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getComment, getCommentReply } from "pages/api/read/[slug]/[chapter]/[id]";
+import { getCommentItem, getCommentReplyItem } from "utils/crawl";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface DetailResponse {
@@ -26,7 +26,7 @@ export default async function handler(
     const data = await fetchComicDetail(`${BASE_URL}/${slug}`);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching topComics failed: ", error);
+    console.log("Fetching featureComics failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
@@ -36,7 +36,7 @@ async function fetchComicDetail(url: string) {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    let detail: IDetail = {} as IDetail;
+    let detail: IComicDetail = {} as IComicDetail;
     let listChapter: IOptionChapter[] = [];
     const comments: IComment[] = [];
     $("#ctl00_divCenter").each(function (index, item) {
@@ -79,11 +79,11 @@ async function fetchComicDetail(url: string) {
           .find(".item.clearfix")
           .each(function (index, element) {
             let replyComments: ICommentReply[] = [];
-            const comment = getComment($(element).first());
+            const comment = getCommentItem($(element).first());
             $(element)
               .find(".item.child")
               .each(function (index, element) {
-                const replyComment = getCommentReply($(element));
+                const replyComment = getCommentReplyItem($(element));
                 replyComments.push(replyComment);
               });
             comments.push({ ...comment, replyComments });
