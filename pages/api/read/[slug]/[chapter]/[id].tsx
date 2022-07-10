@@ -35,7 +35,7 @@ async function fetchWatch(url: string) {
     const html = response.data;
     const $ = cheerio.load(html);
     const imageUrls: IImageChapter[] = [];
-    let comicDetail: IWatchDetail = {} as IWatchDetail;
+    let detailChapter: IWatchDetail = {} as IWatchDetail;
     const comments: IComment[] = [];
     // get comic detail information
     $(".reading .container .top")
@@ -49,7 +49,7 @@ async function fetchWatch(url: string) {
         const title = $(element).find(".txt-primary > a").text();
         const chapter = $(element).find(".txt-primary > span").text();
         const updated = $(element).find("i").text();
-        comicDetail = { title, updated, chapter, urlComic };
+        detailChapter = { title, updated, chapter, urlComic };
       });
     // get urls reading image chapter
     $(".reading-detail .page-chapter").each(function (index, element) {
@@ -72,7 +72,7 @@ async function fetchWatch(url: string) {
           comments.push({ ...comment, replyComments });
         });
     });
-    return { comicDetail, imageUrls, comments };
+    return { detailChapter, imageUrls, comments };
   } catch (error) {
     console.log(error);
   }

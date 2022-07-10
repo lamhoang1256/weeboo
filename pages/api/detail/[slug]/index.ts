@@ -40,7 +40,6 @@ async function fetchDetailComic(url: string) {
     let detail: IDetail = {} as IDetail;
     let listChapter: IOptionChapter[] = [];
     const comments: IComment[] = [];
-
     $("#ctl00_divCenter").each(function (index, item) {
       const title = $(item).find(".title-detail").text();
       const updatedAt = $(item).find("time.small").text().trim();
@@ -76,7 +75,6 @@ async function fetchDetailComic(url: string) {
           const chapter = getListChapter($(option));
           listChapter.push(chapter);
         });
-
       $(".comment-list").each(function (index, element) {
         $(element)
           .find(".item.clearfix")

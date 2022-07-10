@@ -4,6 +4,7 @@ import ComicDesc from "./ComicDesc";
 import ComicMeta from "./ComicMeta";
 import ComicMetaGroup from "./ComicMetaGroup";
 import ComicRating from "./ComicRating";
+import ComicReading from "./ComicReading";
 import ComicFeatureItem from "./ComicFeatureItem";
 import ComicNewestItem from "./ComicNewestItem";
 import ComicUpdatedAt from "./ComicUpdatedAt";
@@ -13,6 +14,7 @@ export {
   ComicTitle,
   ComicDesc,
   ComicRating,
+  ComicReading,
   ComicMeta,
   ComicMetaGroup,
   ComicFeatureItem,

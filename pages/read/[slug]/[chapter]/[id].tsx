@@ -1,19 +1,27 @@
 import { Comments } from "components/comment";
 import { Layout } from "components/layouts";
-import { getComicChapter } from "config/api";
+import { getComicChapter, getComicDetail } from "config/api";
 import { path } from "constants/path";
+import { IDetail, IOptionChapter } from "interfaces/detail";
 import { IImageChapter, IComment, IWatchDetail } from "interfaces/read";
-import { ComicTitle, ComicUpdatedAt } from "modules/comic";
-import ComicReading from "modules/comic/ComicReading";
+import { ComicTitle, ComicUpdatedAt, ComicReading } from "modules/comic";
+import { ReadNavigation, ReadSelect } from "modules/read";
 
 interface ComicChapterProps {
   imageUrls: IImageChapter[];
-  comicDetail: IWatchDetail;
+  detailChapter: IWatchDetail;
   comments: IComment[];
+  comicDetail: {
+    detail: IDetail;
+    listChapter: IOptionChapter[];
+    comments: IComment[];
+  };
 }
 
-const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) => {
-  const { title, urlComic, chapter, updated } = comicDetail;
+const ComicChapter = ({ detailChapter, imageUrls, comments, comicDetail }: ComicChapterProps) => {
+  const { title, urlComic, chapter, updated } = detailChapter;
+  const { listChapter } = comicDetail;
+
   return (
     <Layout title={`${title} ${chapter}`}>
       <div className="layout-container">
@@ -21,6 +29,10 @@ const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) =
           {title} <span className="font-medium">{chapter}</span>
         </ComicTitle>
         <ComicUpdatedAt className="block mt-1">{updated}</ComicUpdatedAt>
+        <div className="mt-4 flex justify-between">
+          <ReadSelect listChapter={listChapter} />
+          <ReadNavigation listChapter={listChapter} />
+        </div>
         <ComicReading imageUrls={imageUrls} />
         <Comments comments={comments} />
       </div>
@@ -31,9 +43,11 @@ const ComicChapter = ({ comicDetail, imageUrls, comments }: ComicChapterProps) =
 export async function getServerSideProps({ params }: any) {
   const { slug, chapter, id } = params;
   const { data } = await getComicChapter(slug, chapter, id);
-  const { comicDetail, imageUrls, comments } = data;
+  const response = await getComicDetail(slug);
+  const comicDetail = response.data;
+  const { detailChapter, imageUrls, comments } = data;
   return {
-    props: { comicDetail, imageUrls, comments },
+    props: { comicDetail, detailChapter, imageUrls, comments },
   };
 }
 
