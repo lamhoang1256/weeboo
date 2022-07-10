@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { ICommentReplyItem, IWatchComment, IWatchDetail } from "interfaces/watch";
+import { ICommentReplyItem, IImageChapter, IWatchComment, IWatchDetail } from "interfaces/watch";
 import type { NextApiRequest, NextApiResponse } from "next";
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
@@ -34,7 +34,7 @@ async function fetchWatch(url: string) {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    const imageUrls: string[] = [];
+    const imageUrls: IImageChapter[] = [];
     let comicDetail: IWatchDetail = {} as IWatchDetail;
     const comments: IWatchComment[] = [];
     // get comic detail information
@@ -79,9 +79,9 @@ async function fetchWatch(url: string) {
 }
 
 function getImageChapter(node: any) {
-  const imageOriginal = node.find("img").attr("data-original");
-  const imageUrl = imageOriginal?.replace("//p.nhattruyenmoi.com", "http://p.nhattruyenmoi.com");
-  return imageUrl;
+  const imageUrl = node.find("img").attr("data-original");
+  const alt = node.find("img").attr("alt");
+  return { alt, imageUrl };
 }
 
 export function getComment(node: any) {

@@ -1,5 +1,6 @@
-import { NextApiHandler } from "next";
 import axios from "axios";
+import { NextApiHandler } from "next";
+const URL = process.env.URL_CRAWL || "";
 
 const handler: NextApiHandler = (req, res) => {
   if (!req.query.url) return res.status(400).send("URL must not be empty");
@@ -10,7 +11,7 @@ const handler: NextApiHandler = (req, res) => {
     .get(url, {
       responseType: "arraybuffer",
       headers: {
-        referer: "http://www.nettruyenco.com/",
+        referer: URL,
       },
     })
     .then(({ data, headers: { "content-type": contentType } }) => {

@@ -29,3 +29,8 @@ export interface IWatchComment {
   time: string;
   replyComments: ICommentReplyItem[];
 }
+
+export interface IImageChapter {
+  alt: string;
+  imageUrl: string;
+}
