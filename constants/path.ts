@@ -1,5 +1,5 @@
 export const path = {
   home: "/",
-  detail: "/comic",
-  watch: "/comic",
+  detail: "/detail",
+  read: "/read",
 };

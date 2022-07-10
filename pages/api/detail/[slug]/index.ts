@@ -3,7 +3,8 @@ import * as cheerio from "cheerio";
 import { IDetail, IOptionChapter } from "interfaces/detail";
 import { ICommentReply, IComment } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getComment, getCommentReply } from "./[chapter]/[id]";
+import { getComment, getCommentReply } from "pages/api/read/[slug]/[chapter]/[id]";
+
 const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
 
 interface DetailResponse {

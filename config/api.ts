@@ -12,7 +12,7 @@ export const getHomeData = async () => {
 
 export const getComicDetail = async (slug: string) => {
   try {
-    const { data } = await axios.get(`${URL_PUBLIC}/api/comic/${slug}`);
+    const { data } = await axios.get(`${URL_PUBLIC}/api/detail/${slug}`);
     return data;
   } catch (error) {
     console.log(error);
@@ -21,7 +21,7 @@ export const getComicDetail = async (slug: string) => {
 
 export const getComicChapter = async (slug: string, chapter: string, id: string) => {
   try {
-    const { data } = await axios.get(`${URL_PUBLIC}/api/comic/${slug}/${chapter}/${id}`);
+    const { data } = await axios.get(`${URL_PUBLIC}/api/read/${slug}/${chapter}/${id}`);
     return data;
   } catch (error) {
     console.log(error);

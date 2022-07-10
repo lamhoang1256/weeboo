@@ -10,12 +10,12 @@ interface ComicFeatureItemProps {
 
 const ComicFeatureItem = ({ data }: ComicFeatureItemProps) => {
   const meta = {
-    to: `${path.detail}/${data.slug}`,
+    to: `${path.read}/${data.slug}`,
     newChapter: data.newestChapter,
     updatedAgo: data.updatedAgo,
   };
   return (
-    <Link href={`/comic/${data.slug}`}>
+    <Link href={`${path.detail}/${data.slug}`}>
       <div className="block relative max-w-[200px] h-[300px] rounded-md overflow-hidden">
         <ComicImage url={data.posterUrl} className="h-full" />
         <div
