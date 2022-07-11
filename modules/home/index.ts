@@ -1,3 +1,3 @@
-import HomeFeature from "./HomeFeature";
-import HomeNewest from "./HomeNewest";
-export { HomeFeature, HomeNewest };
+import HomeBanner from "./HomeBanner";
+import HomeComics from "./HomeComics";
+export { HomeBanner, HomeComics };

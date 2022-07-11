@@ -14,6 +14,7 @@ module.exports = {
       },
       aspectRatio: {
         "2/3": "2/3",
+        2: "2",
       },
     },
   },

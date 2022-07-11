@@ -4,6 +4,7 @@ export function getComicFeatureItem(node: any) {
   const posterUrl = node.find(".lazyOwl").attr("data-src") || "";
   const newestChapter = node.find(".slide-caption > a").text();
   const updatedAgo = node.find(".slide-caption > .time").text().trim();
+  const newestUrl = node.attr("href")?.split("/truyen-tranh/")?.[1] || "";
   return { slug, title, posterUrl, newestChapter, updatedAgo };
 }
 

@@ -1,11 +1,12 @@
-import { getHomeData } from "config/api";
 import { Layout } from "components/layouts";
-import { HomeFeature, HomeNewest } from "modules/home";
-import { IComicItems, IFeatureComics } from "interfaces/home";
+import { getHomeData } from "config/api";
+import { IComicItems, IHomeBannerItem } from "interfaces/home";
+import { HomeBanner, HomeComics } from "modules/home";
 
 interface HomePageProps {
   data: {
-    featureComics: IFeatureComics;
+    banners: IHomeBannerItem[][];
+    featureComics: IComicItems;
     newestComics: IComicItems;
   };
 }
@@ -14,8 +15,9 @@ const HomePage = ({ data }: HomePageProps) => {
   return (
     <Layout title="HomePage">
       <div className="layout-container">
-        <HomeFeature featureComics={data?.featureComics}></HomeFeature>
-        <HomeNewest data={data?.newestComics}></HomeNewest>
+        <HomeBanner banners={data?.banners} />
+        <HomeComics data={data?.featureComics}></HomeComics>
+        <HomeComics data={data?.newestComics}></HomeComics>
       </div>
     </Layout>
   );

@@ -1,2 +1,3 @@
 import Image from "./Image";
-export { Image };
+import ImageResize from "./ImageResize";
+export { Image, ImageResize };

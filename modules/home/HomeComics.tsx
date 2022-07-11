@@ -1,11 +1,11 @@
 import { IComicItems } from "interfaces/home";
 import { ComicGrid, ComicItem } from "modules/comic";
 
-interface HomeNewestProps {
+interface HomeComicsProps {
   data: IComicItems;
 }
 
-const HomeNewest = ({ data }: HomeNewestProps) => {
+const HomeComics = ({ data }: HomeComicsProps) => {
   return (
     <div>
       <h2 className="py-3 font-bold color-[#333]">{data?.headline}</h2>
@@ -18,4 +18,4 @@ const HomeNewest = ({ data }: HomeNewestProps) => {
   );
 };
 
-export default HomeNewest;
+export default HomeComics;
