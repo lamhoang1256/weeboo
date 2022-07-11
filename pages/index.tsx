@@ -21,7 +21,7 @@ const HomePage = ({ banners, featureComics, newestComics }: HomePageProps) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { data } = await getHomeData();
   const { banners, featureComics, newestComics } = data;
   return {
