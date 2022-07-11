@@ -48,10 +48,10 @@ const ComicDetail = ({ detail, listChapter, comments }: ComicDetailProps) => {
             <ComicUpdatedAt>{detail?.updatedAt}</ComicUpdatedAt>
             <div className="my-3 flex items-center gap-6">
               <ComicCountNum value={detail?.viewCount}>
-                <IconEye className="text-green2d h-4 h-4" />
+                <IconEye className="text-green2d w-4 h-4" />
               </ComicCountNum>
               <ComicCountNum value={detail?.followCount}>
-                <IconLike className="text-green2d h-4 h-4" />
+                <IconLike className="text-green2d w-4 h-4" />
               </ComicCountNum>
             </div>
             <ComicRating score={detail?.ratingValue} />

@@ -3,14 +3,14 @@ import { Layout } from "components/layouts";
 import { HomeFeature, HomeNewest } from "modules/home";
 import { IComicItems, IFeatureComics } from "interfaces/home";
 
-interface HomeProps {
+interface HomePageProps {
   data: {
     featureComics: IFeatureComics;
     newestComics: IComicItems;
   };
 }
 
-const Home = ({ data }: HomeProps) => {
+const HomePage = ({ data }: HomePageProps) => {
   return (
     <Layout title="HomePage">
       <div className="layout-container">
@@ -28,4 +28,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home;
+export default HomePage;
