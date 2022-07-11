@@ -1,3 +1,4 @@
+import { Option, Select } from "components/dropdown";
 import { path } from "constants/path";
 import { IOptionChapter } from "interfaces/detail";
 import { useRouter } from "next/router";
@@ -15,20 +16,16 @@ const ReadSelect = ({ listChapter }: ReadSelectProps) => {
   };
 
   return (
-    <select
-      id="listChapter"
-      className="h-11 pr-4 pl-2 text-sm md:text-base md:pr-[30px] md:pl-[16px] rounded bg-[#ebebeb]"
-      onChange={(e) => handleChangeChapter(e.target.value)}
-    >
+    <Select id="listChapter" handleChange={handleChangeChapter}>
       {listChapter?.map((chapter) => {
         const isSelected = chapter.id === id ? true : false;
         return (
-          <option value={chapter.href} key={chapter.id} selected={isSelected}>
+          <Option value={chapter.href} key={chapter.id} selected={isSelected}>
             {chapter.title}
-          </option>
+          </Option>
         );
       })}
-    </select>
+    </Select>
   );
 };
 

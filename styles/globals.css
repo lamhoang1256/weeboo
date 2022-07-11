@@ -66,4 +66,13 @@ h3 {
   .banner-item {
     width: 200px !important;
   }
+  .scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+  }
 }

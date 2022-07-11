@@ -6,7 +6,7 @@ interface HeadingProps {
 }
 
 const Heading = ({ children, className = "" }: HeadingProps) => {
-  const stylesHeading = "py-3 font-bold color-[#333] text-xl";
+  const stylesHeading = "font-bold color-[#333] text-xl";
   return <h2 className={classNames(stylesHeading, className)}>{children}</h2>;
 };
 
