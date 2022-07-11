@@ -8,7 +8,7 @@ interface HomeNewestProps {
 const HomeNewest = ({ data }: HomeNewestProps) => {
   return (
     <div>
-      <h2 className="py-3 font-bold color-[#333]">{data.headline}</h2>
+      <h2 className="py-3 font-bold color-[#333]">{data?.headline}</h2>
       <ComicGrid>
         {data?.comics?.map((comic) => (
           <ComicItem key={comic.slug} comic={comic} />

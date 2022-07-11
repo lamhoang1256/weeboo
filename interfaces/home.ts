@@ -1,3 +1,8 @@
+export interface IHomeBannerItem {
+  id: number;
+  imageUrl: string;
+}
+
 export interface IFeatureComic {
   slug: string;
   title: string;

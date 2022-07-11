@@ -14,8 +14,8 @@ const HomePage = ({ data }: HomePageProps) => {
   return (
     <Layout title="HomePage">
       <div className="layout-container">
-        <HomeFeature featureComics={data.featureComics}></HomeFeature>
-        <HomeNewest data={data.newestComics}></HomeNewest>
+        <HomeFeature featureComics={data?.featureComics}></HomeFeature>
+        <HomeNewest data={data?.newestComics}></HomeNewest>
       </div>
     </Layout>
   );
