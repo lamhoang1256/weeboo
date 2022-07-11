@@ -5,16 +5,24 @@ interface SelectProps {
   className?: string;
   children: React.ReactNode;
   handleChange?: (e?: any) => void;
+  defaultValue: string;
 }
 
-const Select = ({ id = "", className = "", children, handleChange = (e) => {} }: SelectProps) => {
+const Select = ({
+  id = "",
+  children,
+  className = "",
+  defaultValue = "",
+  handleChange = (e) => {},
+}: SelectProps) => {
   const stylesSelect =
     "h-11 pr-4 pl-2 text-sm md:text-base md:pr-[30px] md:pl-[16px] rounded bg-[#ebebeb] scrollbar";
   return (
     <select
       id={id}
+      defaultValue={defaultValue}
+      onChange={handleChange}
       className={classNames(stylesSelect, className)}
-      onChange={(e) => handleChange(e.target.value)}
     >
       {children}
     </select>

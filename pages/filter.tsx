@@ -1,58 +1,52 @@
-import { Heading } from "components/common";
-import { Option, Select } from "components/dropdown";
 import { Layout } from "components/layouts";
+import { getDataFilterPage } from "config/api";
+import { IFilterOptions } from "interfaces/filter";
+import { IComicItem } from "interfaces/home";
+import { FilterOptions, FilterResults } from "modules/filter";
+import { useState } from "react";
 
-interface FilterPageProps {}
+interface FilterPageProps {
+  filterOptions: IFilterOptions;
+  filterResults: IComicItem[];
+}
 
-const FilterPage = (props: FilterPageProps) => {
+const FilterPage = ({ filterOptions, filterResults }: FilterPageProps) => {
+  const [params, setParams] = useState({
+    genres: "",
+    notgenres: "",
+    gender: "-1",
+    status: "-1",
+    minchapter: "1",
+    sort: "0",
+  });
+
   return (
     <Layout title="FilterPage">
       <div className="layout-container">
-        <div className="mt-4 grid grid-cols-5 gap-4">
-          <div>
-            <Heading>Thể loại</Heading>
-            <Select className="w-full">
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-            </Select>
-          </div>
-          <div>
-            <Heading>Số lượng chap</Heading>
-            <Select className="w-full">
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-            </Select>
-          </div>
-          <div>
-            <Heading>Dành cho</Heading>
-            <Select className="w-full">
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-            </Select>
-          </div>
-          <div>
-            <Heading>Tình trạng</Heading>
-            <Select className="w-full">
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-            </Select>
-          </div>
-          <div>
-            <Heading>Sắp xếp theo</Heading>
-            <Select className="w-full">
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-            </Select>
-          </div>
-        </div>
+        <FilterOptions filterOptions={filterOptions} params={params} setParams={setParams} />
+        <FilterResults filterResults={filterResults} />
       </div>
     </Layout>
   );
 };
+
+export async function getServerSideProps({ query }: any) {
+  const params =
+    Object.keys(query).length === 0
+      ? {
+          genres: "",
+          notgenres: "",
+          gender: "-1",
+          status: "-1",
+          minchapter: "1",
+          sort: "0",
+        }
+      : query;
+  const { data } = await getDataFilterPage(params);
+  const { filterOptions, filterResults } = data;
+  return {
+    props: { filterOptions, filterResults },
+  };
+}
 
 export default FilterPage;

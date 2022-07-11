@@ -36,3 +36,12 @@ export const getSearchData = async (searchValue: string) => {
     console.log(error);
   }
 };
+
+export const getDataFilterPage = async (params: any) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/filter`, { params: params });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

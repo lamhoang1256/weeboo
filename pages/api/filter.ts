@@ -18,11 +18,12 @@ export default async function handler(
   res: NextApiResponse<FilterData | FilterError>
 ) {
   const { method } = req;
+  const params = req.query;
   if (method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await crawlDataFilterPage();
+    const data = await crawlDataFilterPage(params);
     return res.status(200).json({ data });
   } catch (error: any) {
     console.log("Fetching featureComics failed: ", error);
@@ -30,27 +31,34 @@ export default async function handler(
   }
 }
 
-async function crawlDataFilterPage() {
+async function crawlDataFilterPage(params: any) {
   try {
-    const response = await axios.get(URL);
+    const response = await axios.get(URL, { params });
     const html = response.data;
     const $ = cheerio.load(html);
     let filterResults: IComicItem[] = [];
-    let filterOptions: IFilterOptions = { size: [], genres: [], status: [], gender: [], sort: [] };
+    let filterOptions: IFilterOptions = {
+      minchapter: [],
+      genres: [],
+      status: [],
+      gender: [],
+      sort: [],
+    };
     console.log("filterOptions: ", filterOptions);
     $(".ModuleContent .item", html).each(function (index, element) {
       const comic = getComicItem($(element));
       filterResults.push(comic);
     });
     $(".genre-item", html).each(function (index, element) {
-      const id = $(element).find("span").attr("data-id") || "";
+      const value = $(element).find("span").attr("data-id") || "";
       const content = $(element).text().trim();
-      const genre = { id, content };
+      const isSelected = false;
+      const genre = { value, content, isSelected };
       filterOptions.genres.push(genre);
     });
     $(".select-minchapter option", html).each(function (index, element) {
-      const size = crawlDataFilterOption($(element));
-      filterOptions.size.push(size);
+      const minchapter = crawlDataFilterOption($(element));
+      filterOptions.minchapter.push(minchapter);
     });
     $(".select-status option", html).each(function (index, element) {
       const status = crawlDataFilterOption($(element));
@@ -73,5 +81,6 @@ async function crawlDataFilterPage() {
 function crawlDataFilterOption(node: any) {
   const value = node.attr("value") || "";
   const content = node.text();
-  return { value, content };
+  const isSelected = node.attr("selected") === "selected" ? true : false;
+  return { value, content, isSelected };
 }
