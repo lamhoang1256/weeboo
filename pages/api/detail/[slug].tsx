@@ -4,7 +4,7 @@ import { IComicDetail, IOptionChapter } from "interfaces/detail";
 import { ICommentReply, IComment } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getCommentItem, getCommentReplyItem } from "utils/crawl";
-const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
+const BASE_URL = process.env.URL_NETTRUYEN + "/truyen-tranh";
 
 interface DetailResponse {
   data: any;

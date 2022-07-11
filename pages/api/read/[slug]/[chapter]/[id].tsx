@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ICommentReply, IImageChapter, IComment, IChapterReadDetail } from "interfaces/read";
 import { getCommentItem, getCommentReplyItem, getImagesReading } from "utils/crawl";
-const BASE_URL = process.env.URL_CRAWL + "/truyen-tranh";
+const BASE_URL = process.env.URL_NETTRUYEN + "/truyen-tranh";
 
 interface WatchResponse {
   data: any;

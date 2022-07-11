@@ -5,7 +5,7 @@ export function getComicFeatureItem(node: any) {
   const newestChapter = node.find(".slide-caption > a").text();
   const updatedAgo = node.find(".slide-caption > .time").text().trim();
   const newestUrl = node.attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  return { slug, title, posterUrl, newestChapter, updatedAgo };
+  return { slug, title, posterUrl, newestChapter, updatedAgo, newestUrl };
 }
 
 export function getComicItem(node: any) {

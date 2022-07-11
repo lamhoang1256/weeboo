@@ -9,7 +9,7 @@ interface HomeBannerProps {
 
 const HomeBanner = ({ banners }: HomeBannerProps) => {
   return (
-    <div className="mt-6 rounded-lg overflow-hidden">
+    <div className="mt-6 rounded-[10px] overflow-hidden">
       <Swiper spaceBetween={12} slidesPerView={1}>
         {banners.map((banner, index) => (
           <SwiperSlide key={index}>

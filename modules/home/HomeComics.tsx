@@ -1,16 +1,18 @@
-import { IComicItems } from "interfaces/home";
+import { Heading } from "components/common";
+import { IComicItem } from "interfaces/home";
 import { ComicGrid, ComicItem } from "modules/comic";
 
 interface HomeComicsProps {
-  data: IComicItems;
+  comics: IComicItem[];
+  heading: string;
 }
 
-const HomeComics = ({ data }: HomeComicsProps) => {
+const HomeComics = ({ heading, comics }: HomeComicsProps) => {
   return (
     <div>
-      <h2 className="py-3 font-bold color-[#333]">{data?.headline}</h2>
+      <Heading>{heading}</Heading>
       <ComicGrid>
-        {data?.comics?.map((comic) => (
+        {comics?.map((comic) => (
           <ComicItem key={comic.slug} comic={comic} />
         ))}
       </ComicGrid>

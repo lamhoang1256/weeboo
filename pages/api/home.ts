@@ -1,17 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import {
-  IComicItem,
-  IComicItems,
-  IFeatureComic,
-  IFeatureComics,
-  IHomeBannerItem,
-} from "interfaces/home";
+import { IComicItem, IHomeBannerItem } from "interfaces/home";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { getComicFeatureItem, getComicItem } from "utils/crawl";
 
-const URL = process.env.URL_CRAWL || "";
-const URL2 = "https://weeboo.vn";
+const URL_NETTRUYEN = process.env.URL_NETTRUYEN || "";
+const URL_WEEBOO = process.env.URL_WEEBOO || "";
 interface HomeResponse {
   data: any;
 }
@@ -38,34 +32,20 @@ export default async function handler(
 
 async function crawlDataHomePage() {
   try {
-    const response = await axios.get(URL);
+    const response = await axios.get(URL_NETTRUYEN);
     const html = response.data;
     const $ = cheerio.load(html);
-    let featureComics: IFeatureComics = {} as IFeatureComics;
-    let newestComics: IComicItems = {} as IComicItems;
-    // get a list of featured comics
-    $(".top-comics", html).each(function () {
-      let comics: IFeatureComic[] = [];
-      const headline = $(this).find("h2.page-title").text();
-      $(this)
-        .find(".item")
-        .each(function (index, element) {
-          const comic = getComicFeatureItem($(element));
-          comics.push(comic);
-        });
-      featureComics = { headline, comics };
+    let featureComics: IComicItem[] = [];
+    let newestComics: IComicItem[] = [];
+    // get featured comics
+    $(".top-comics .item", html).each(function (index, element) {
+      const comic = getComicFeatureItem($(element));
+      featureComics.push(comic);
     });
-    // get the list of newly updated comics
-    $("#ctl00_divCenter .ModuleContent", html).each(function () {
-      let comics: IComicItem[] = [];
-      const headline = $(this).find(".page-title").text();
-      $(this)
-        .find(".item")
-        .each(function (index, element) {
-          const comic = getComicItem($(element));
-          comics.push(comic);
-        });
-      newestComics = { headline, comics };
+    // get newest updated comics
+    $("#ctl00_divCenter .ModuleContent .item", html).each(function (index, element) {
+      const comic = getComicItem($(element));
+      newestComics.push(comic);
     });
     return { featureComics, newestComics };
   } catch (error) {
@@ -75,26 +55,23 @@ async function crawlDataHomePage() {
 
 async function crawlDataHomeBanner() {
   try {
-    const response = await axios.get(URL2);
+    const response = await axios.get(URL_WEEBOO);
     const html = response.data;
     const $ = cheerio.load(html);
     let images: IHomeBannerItem[] = [];
     $(".swiper-wrapper", html)
       .first()
+      .find(".swiper-slide")
       .each(function (index, element) {
+        let imageUrls: any = [];
         $(element)
-          .find(".swiper-slide")
-          .each(function (index, element) {
-            let imageUrls: any = [];
-            $(element)
-              .find("img")
-              .each(function (index, element) {
-                const id = index;
-                const imageUrl = $(element).attr("data-src") || "";
-                imageUrls.push({ id, imageUrl });
-              });
-            images.push(imageUrls);
+          .find("img")
+          .each(function (index, image) {
+            const id = index;
+            const imageUrl = $(image).attr("data-src") || "";
+            imageUrls.push({ id, imageUrl });
           });
+        images.push(imageUrls);
       });
     return images;
   } catch (error) {

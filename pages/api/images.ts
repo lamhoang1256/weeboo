@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextApiHandler } from "next";
-const URL = process.env.URL_CRAWL || "";
+const URL = process.env.URL_NETTRUYEN || "";
 
 const handler: NextApiHandler = (req, res) => {
   if (!req.query.url) return res.status(400).send("URL must not be empty");

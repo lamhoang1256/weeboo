@@ -1,23 +1,21 @@
 import { Layout } from "components/layouts";
 import { getHomeData } from "config/api";
-import { IComicItems, IHomeBannerItem } from "interfaces/home";
+import { IComicItem, IHomeBannerItem } from "interfaces/home";
 import { HomeBanner, HomeComics } from "modules/home";
 
 interface HomePageProps {
-  data: {
-    banners: IHomeBannerItem[][];
-    featureComics: IComicItems;
-    newestComics: IComicItems;
-  };
+  banners: IHomeBannerItem[][];
+  featureComics: IComicItem[];
+  newestComics: IComicItem[];
 }
 
-const HomePage = ({ data }: HomePageProps) => {
+const HomePage = ({ banners, featureComics, newestComics }: HomePageProps) => {
   return (
     <Layout title="HomePage">
       <div className="layout-container">
-        <HomeBanner banners={data?.banners} />
-        <HomeComics data={data?.featureComics}></HomeComics>
-        <HomeComics data={data?.newestComics}></HomeComics>
+        <HomeBanner banners={banners} />
+        <HomeComics comics={featureComics} heading="Truyện đề cử" />
+        <HomeComics comics={newestComics} heading="Truyện mới cập nhật" />
       </div>
     </Layout>
   );
@@ -25,8 +23,9 @@ const HomePage = ({ data }: HomePageProps) => {
 
 export async function getStaticProps() {
   const { data } = await getHomeData();
+  const { banners, featureComics, newestComics } = data;
   return {
-    props: { data },
+    props: { banners, featureComics, newestComics },
   };
 }
 
