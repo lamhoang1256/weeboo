@@ -16,9 +16,11 @@ const ComicItem = ({ comic }: ComicItemProps) => {
     updatedAgo: updatedAgo,
   };
   return (
-    <div className="max-w-[200px]">
+    <div>
       <ComicImage to={`${path.detail}/${slug}`} url={posterUrl} />
-      <ComicTitle to={`${path.detail}/${slug}`}>{title}</ComicTitle>
+      <ComicTitle className="mt-2" to={`${path.detail}/${slug}`}>
+        {title}
+      </ComicTitle>
       <ComicMeta meta={meta} />
     </div>
   );

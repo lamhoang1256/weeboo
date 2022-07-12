@@ -51,20 +51,14 @@ h3 {
     padding: 0 15px;
     margin: 0 auto;
   }
-  .grid-home-newest {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(166px, 1fr));
-  }
   .comic-gird {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(166px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
   }
   .grid-detail-episodes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-  .banner-item {
-    width: 200px !important;
   }
   .scrollbar::-webkit-scrollbar {
     width: 10px;
@@ -74,5 +68,10 @@ h3 {
   }
   .scrollbar::-webkit-scrollbar-thumb {
     background-color: darkgrey;
+  }
+}
+@media screen and (max-width: 380px) {
+  .comic-gird {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

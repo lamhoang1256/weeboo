@@ -13,7 +13,7 @@ interface ComicMetaProps {
 const ComicMeta = ({ meta, className = "" }: ComicMetaProps) => {
   const { newChapter, updatedAgo, to } = meta;
   return (
-    <div className="mt-2 flex justify-between items-end">
+    <div className="mt-2 flex flex-col mobile380:flex-row mobile380:items-end gap-y-1 justify-between ">
       <Link href={to}>
         <a className={classNames("text-[#333] text-sm font-semibold", className)}>{newChapter}</a>
       </Link>

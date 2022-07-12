@@ -1,6 +1,6 @@
+import { Dispatch } from "react";
 import { IFilterItem } from "interfaces/filter";
 import { Option, Select } from "components/dropdown";
-import { Dispatch } from "react";
 
 interface FilterSelectProps {
   type: string;

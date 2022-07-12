@@ -1,11 +1,12 @@
-import { Button } from "components/button";
-import { Heading } from "components/common";
+import { useEffect, useReducer } from "react";
+import { useRouter } from "next/router";
 import { path } from "constants/path";
 import { initialParamsFilter } from "constants/value";
 import { IFilterOptions } from "interfaces/filter";
 import { FilterGroup, FilterSelect } from "modules/filter";
-import { useRouter } from "next/router";
-import { useEffect, useReducer } from "react";
+import { ComicGrid } from "modules/comic";
+import { Heading } from "components/common";
+import { Button } from "components/button";
 
 interface FilterOptionsProps {
   filterOptions: IFilterOptions;
@@ -42,7 +43,7 @@ const FilterOptions = ({ filterOptions }: FilterOptionsProps) => {
   }, [state]);
 
   return (
-    <div className="mt-4 comic-gird gap-3 items-end">
+    <ComicGrid className="mt-4 items-end">
       <FilterGroup>
         <Heading>Thể loại</Heading>
         <FilterSelect
@@ -89,7 +90,7 @@ const FilterOptions = ({ filterOptions }: FilterOptionsProps) => {
         />
       </FilterGroup>
       <Button handleOnClick={() => dispatch({ type: "RESET" })}>Reset</Button>
-    </div>
+    </ComicGrid>
   );
 };
 

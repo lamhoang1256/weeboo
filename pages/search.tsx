@@ -1,3 +1,4 @@
+import { Heading } from "components/common";
 import { Layout } from "components/layouts";
 import { getSearchData } from "config/api";
 import { ComicGrid, ComicItem } from "modules/comic";
@@ -10,7 +11,7 @@ const SearchPage = ({ searchResults }: SearchPageProps) => {
   return (
     <Layout title="SearchPage">
       <div className="layout-container">
-        <h2>Search </h2>
+        <Heading className="my-3">Tìm kiếm</Heading>
         <ComicGrid>
           {searchResults?.map((comic: any) => (
             <ComicItem key={comic.slug} comic={comic} />

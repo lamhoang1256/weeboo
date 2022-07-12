@@ -9,8 +9,8 @@ interface HomeComicsProps {
 
 const HomeComics = ({ heading, comics }: HomeComicsProps) => {
   return (
-    <div>
-      <Heading>{heading}</Heading>
+    <div className="mt-6">
+      <Heading className="my-3">{heading}</Heading>
       <ComicGrid>
         {comics?.map((comic) => (
           <ComicItem key={comic.slug} comic={comic} />

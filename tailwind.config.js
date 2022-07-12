@@ -16,6 +16,9 @@ module.exports = {
         "2/3": "2/3",
         2: "2",
       },
+      screens: {
+        mobile380: "380px",
+      },
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],
