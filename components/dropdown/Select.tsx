@@ -5,7 +5,7 @@ interface SelectProps {
   className?: string;
   children: React.ReactNode;
   handleChange?: (e?: any) => void;
-  defaultValue: string;
+  defaultValue?: string;
 }
 
 const Select = ({
