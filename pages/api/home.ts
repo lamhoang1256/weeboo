@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { IComicItem, IHomeBannerItem } from "interfaces/home";
+import { IComicItem, IDataHomePage, IHomeBannerItem } from "interfaces/home";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComicFeatureItem, getComicItem } from "utils/crawl";
 
@@ -35,19 +35,24 @@ async function crawlDataHomePage() {
     const response = await axios.get(URL_NETTRUYEN);
     const html = response.data;
     const $ = cheerio.load(html);
-    let featureComics: IComicItem[] = [];
-    let newestComics: IComicItem[] = [];
-    // get featured comics
+    let dataHomePage: IDataHomePage = { featureComics: [], newestComics: [], pagination: [] };
+
     $(".top-comics .item", html).each(function (index, element) {
       const comic = getComicFeatureItem($(element));
-      featureComics.push(comic);
+      dataHomePage.featureComics.push(comic);
     });
-    // get newest updated comics
     $("#ctl00_divCenter .ModuleContent .item", html).each(function (index, element) {
       const comic = getComicItem($(element));
-      newestComics.push(comic);
+      dataHomePage.newestComics.push(comic);
     });
-    return { featureComics, newestComics };
+    $("#ctl00_divCenter .pagination li", html).each(function (index, element) {
+      const display = $(element).text();
+      const active = $(element).hasClass("active");
+      const title = $(element).find("a").attr("title") || "";
+      const href = $(element).find("a").attr("href") || "";
+      dataHomePage.pagination.push({ active, title, display, href });
+    });
+    return dataHomePage;
   } catch (error) {
     console.log(error);
   }

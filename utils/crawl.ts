@@ -4,8 +4,9 @@ export function getComicFeatureItem(node: any) {
   const posterUrl = node.find(".lazyOwl").attr("data-src") || "";
   const newestChapter = node.find(".slide-caption > a").text();
   const updatedAgo = node.find(".slide-caption > .time").text().trim();
-  const newestUrl = node.attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  return { slug, title, posterUrl, newestChapter, updatedAgo, newestUrl };
+  const newestHref =
+    node.find(".slide-caption > a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
+  return { slug, title, posterUrl, newestChapter, updatedAgo, newestHref };
 }
 
 export function getComicItem(node: any) {
@@ -15,8 +16,8 @@ export function getComicItem(node: any) {
   const updatedAgo = node.find(".comic-item .chapter .time").first().text();
   const newestEle = node.find(".comic-item .chapter a").first();
   const newestChapter = newestEle.text();
-  const newestUrl = newestEle.attr("href")?.split("/truyen-tranh/")?.[1] || "";
-  return { slug, title, posterUrl, newestChapter, updatedAgo, newestUrl };
+  const newestHref = newestEle.attr("href")?.split("/truyen-tranh/")?.[1] || "";
+  return { slug, title, posterUrl, newestChapter, updatedAgo, newestHref };
 }
 
 export function getCommentItem(node: any) {

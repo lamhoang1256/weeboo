@@ -1,5 +1,7 @@
 import { Layout } from "components/layouts";
+import { Pagination } from "components/pagination";
 import { getHomeData } from "config/api";
+import { IPaginationItem } from "interfaces/common";
 import { IComicItem, IHomeBannerItem } from "interfaces/home";
 import { HomeBanner, HomeComics } from "modules/home";
 
@@ -7,15 +9,17 @@ interface HomePageProps {
   banners: IHomeBannerItem[][];
   featureComics: IComicItem[];
   newestComics: IComicItem[];
+  pagination: IPaginationItem[];
 }
 
-const HomePage = ({ banners, featureComics, newestComics }: HomePageProps) => {
+const HomePage = ({ banners, featureComics, newestComics, pagination }: HomePageProps) => {
   return (
     <Layout title="HomePage">
       <div className="layout-container">
         <HomeBanner banners={banners} />
         <HomeComics comics={featureComics} heading="Truyện đề cử" />
         <HomeComics comics={newestComics} heading="Truyện mới cập nhật" />
+        <Pagination pagination={pagination} />
       </div>
     </Layout>
   );
@@ -23,9 +27,9 @@ const HomePage = ({ banners, featureComics, newestComics }: HomePageProps) => {
 
 export async function getServerSideProps() {
   const { data } = await getHomeData();
-  const { banners, featureComics, newestComics } = data;
+  const { banners, featureComics, newestComics, pagination } = data;
   return {
-    props: { banners, featureComics, newestComics },
+    props: { banners, featureComics, newestComics, pagination },
   };
 }
 

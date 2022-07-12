@@ -9,10 +9,10 @@ interface ComicItemProps {
 }
 
 const ComicItem = ({ comic }: ComicItemProps) => {
-  const { posterUrl, slug, title, newestChapter, newestUrl, updatedAgo } = comic;
+  const { posterUrl, slug, title, newestChapter, newestHref, updatedAgo } = comic;
   const meta = {
     newChapter: newestChapter,
-    to: `${path.read}/${newestUrl}`,
+    to: `${path.read}/${newestHref}`,
     updatedAgo: updatedAgo,
   };
   return (

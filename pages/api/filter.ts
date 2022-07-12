@@ -44,7 +44,6 @@ async function crawlDataFilterPage(params: any) {
       gender: [],
       sort: [],
     };
-    console.log("filterOptions: ", filterOptions);
     $(".ModuleContent .item", html).each(function (index, element) {
       const comic = getComicItem($(element));
       filterResults.push(comic);
