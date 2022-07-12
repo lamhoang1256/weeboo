@@ -6,6 +6,7 @@ interface SelectProps {
   children: React.ReactNode;
   onChange?: (e?: any) => void;
   defaultValue?: string;
+  value?: string;
 }
 
 const Select = ({
@@ -13,6 +14,7 @@ const Select = ({
   children,
   className = "",
   defaultValue = "",
+  value = "",
   onChange = (e) => {},
 }: SelectProps) => {
   const stylesSelect =
@@ -21,6 +23,7 @@ const Select = ({
     <select
       id={id}
       defaultValue={defaultValue}
+      value={value}
       onChange={onChange}
       className={classNames(stylesSelect, className)}
     >

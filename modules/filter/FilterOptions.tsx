@@ -24,7 +24,7 @@ const filterReducer = (state: any, action: any) => {
     case "SORT":
       return { ...state, sort: action.payload };
     case "RESET":
-      return { ...state, ...initialParamsFilter };
+      return initialParamsFilter;
     default:
       return state;
   }
@@ -38,6 +38,7 @@ const FilterOptions = ({ filterOptions }: FilterOptionsProps) => {
       pathname: path.filter,
       query: state,
     });
+    console.log(state);
   }, [state]);
 
   return (

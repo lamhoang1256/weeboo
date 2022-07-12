@@ -20,7 +20,7 @@ const FilterSelect = ({ type, options, selected, dispatch }: FilterSelectProps) 
   return (
     <Select
       className="w-full"
-      defaultValue={selected}
+      value={selected}
       onChange={(e) => handleChangeSelect(e.target.value)}
     >
       {options?.map((item) => (
