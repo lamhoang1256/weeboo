@@ -1,23 +1,29 @@
+import { IFilterItem } from "interfaces/filter";
 import { Option, Select } from "components/dropdown";
+import { Dispatch } from "react";
 
 interface FilterSelectProps {
-  filterList: {
-    value: string;
-    content: string;
-    isSelected: boolean;
-  }[];
+  type: string;
+  options: IFilterItem[];
   selected: string;
-  setSelected?: any;
+  dispatch: Dispatch<any>;
 }
 
-const FilterSelect = ({ filterList, selected, setSelected }: FilterSelectProps) => {
+const FilterSelect = ({ type, options, selected, dispatch }: FilterSelectProps) => {
+  const handleChangeSelect = (value: string) => {
+    dispatch({
+      type,
+      payload: value,
+    });
+  };
+
   return (
     <Select
       className="w-full"
       defaultValue={selected}
-      handleChange={(e) => setSelected(e.target.value)}
+      onChange={(e) => handleChangeSelect(e.target.value)}
     >
-      {filterList?.map((item) => (
+      {options?.map((item) => (
         <Option value={item.value} key={item.value}>
           {item.content}
         </Option>

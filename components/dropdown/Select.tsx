@@ -4,7 +4,7 @@ interface SelectProps {
   id?: string;
   className?: string;
   children: React.ReactNode;
-  handleChange?: (e?: any) => void;
+  onChange?: (e?: any) => void;
   defaultValue?: string;
 }
 
@@ -13,7 +13,7 @@ const Select = ({
   children,
   className = "",
   defaultValue = "",
-  handleChange = (e) => {},
+  onChange = (e) => {},
 }: SelectProps) => {
   const stylesSelect =
     "h-11 pr-4 pl-2 text-sm md:text-base md:pr-[30px] md:pl-[16px] rounded bg-[#ebebeb] scrollbar";
@@ -21,7 +21,7 @@ const Select = ({
     <select
       id={id}
       defaultValue={defaultValue}
-      onChange={handleChange}
+      onChange={onChange}
       className={classNames(stylesSelect, className)}
     >
       {children}

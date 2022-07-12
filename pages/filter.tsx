@@ -1,9 +1,9 @@
 import { Layout } from "components/layouts";
 import { getDataFilterPage } from "config/api";
+import { initialParamsFilter } from "constants/value";
 import { IFilterOptions } from "interfaces/filter";
 import { IComicItem } from "interfaces/home";
 import { FilterOptions, FilterResults } from "modules/filter";
-import { useState } from "react";
 
 interface FilterPageProps {
   filterOptions: IFilterOptions;
@@ -11,19 +11,10 @@ interface FilterPageProps {
 }
 
 const FilterPage = ({ filterOptions, filterResults }: FilterPageProps) => {
-  const [params, setParams] = useState({
-    genres: "",
-    notgenres: "",
-    gender: "-1",
-    status: "-1",
-    minchapter: "1",
-    sort: "0",
-  });
-
   return (
     <Layout title="FilterPage">
       <div className="layout-container">
-        <FilterOptions filterOptions={filterOptions} params={params} setParams={setParams} />
+        <FilterOptions filterOptions={filterOptions} />
         <FilterResults filterResults={filterResults} />
       </div>
     </Layout>
@@ -31,17 +22,7 @@ const FilterPage = ({ filterOptions, filterResults }: FilterPageProps) => {
 };
 
 export async function getServerSideProps({ query }: any) {
-  const params =
-    Object.keys(query).length === 0
-      ? {
-          genres: "",
-          notgenres: "",
-          gender: "-1",
-          status: "-1",
-          minchapter: "1",
-          sort: "0",
-        }
-      : query;
+  const params = Object.keys(query).length === 0 ? initialParamsFilter : query;
   const { data } = await getDataFilterPage(params);
   const { filterOptions, filterResults } = data;
   return {

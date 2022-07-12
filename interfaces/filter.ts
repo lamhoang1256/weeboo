@@ -1,27 +1,21 @@
+export interface IFilterItem {
+  value: string;
+  content: string;
+}
+
 export interface IFilterOptions {
-  genres: {
-    value: string;
-    content: string;
-    isSelected: boolean;
-  }[];
-  minchapter: {
-    value: string;
-    content: string;
-    isSelected: boolean;
-  }[];
-  status: {
-    value: string;
-    content: string;
-    isSelected: boolean;
-  }[];
-  gender: {
-    value: string;
-    content: string;
-    isSelected: boolean;
-  }[];
-  sort: {
-    value: string;
-    content: string;
-    isSelected: boolean;
-  }[];
+  genres: IFilterItem[];
+  minchapter: IFilterItem[];
+  status: IFilterItem[];
+  gender: IFilterItem[];
+  sort: IFilterItem[];
+}
+
+export interface IParamsFilter {
+  genres: string;
+  notgenres: string;
+  gender: string;
+  status: string;
+  minchapter: string;
+  sort: string;
 }
