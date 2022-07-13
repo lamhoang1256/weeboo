@@ -1,5 +1,5 @@
 export interface IPaginationItem {
-  active: string;
+  active: boolean;
   title: string;
   display: string;
   href: string;
