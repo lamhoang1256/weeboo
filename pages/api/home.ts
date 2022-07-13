@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { IComicItem, IDataHomePage, IHomeBannerItem } from "interfaces/home";
+import { IDataHomePage, IHomeBannerItem } from "interfaces/home";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComicFeatureItem, getComicItem } from "utils/crawl";
 
@@ -17,12 +17,13 @@ export default async function handler(
   res: NextApiResponse<HomeResponse | HomeError>
 ) {
   const { method } = req;
+  const { query } = req;
   if (method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
     const banners = await crawlDataHomeBanner();
-    const dataHome = await crawlDataHomePage();
+    const dataHome = await crawlDataHomePage(query);
     return res.status(200).json({ data: { banners, ...dataHome } });
   } catch (error: any) {
     console.log("Fetching featureComics failed: ", error);
@@ -30,9 +31,9 @@ export default async function handler(
   }
 }
 
-async function crawlDataHomePage() {
+async function crawlDataHomePage(query: any) {
   try {
-    const response = await axios.get(URL_NETTRUYEN);
+    const response = await axios.get(URL_NETTRUYEN, { params: query });
     const html = response.data;
     const $ = cheerio.load(html);
     let dataHomePage: IDataHomePage = { featureComics: [], newestComics: [], pagination: [] };
@@ -49,7 +50,11 @@ async function crawlDataHomePage() {
       const display = $(element).text();
       const active = $(element).hasClass("active");
       const title = $(element).find("a").attr("title") || "";
-      const href = $(element).find("a").attr("href") || "";
+      const href =
+        $(element)
+          .find("a")
+          .attr("href")
+          ?.replace(URL_NETTRUYEN + "/", "") || "";
       dataHomePage.pagination.push({ active, title, display, href });
     });
     return dataHomePage;

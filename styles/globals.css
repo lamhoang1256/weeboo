@@ -69,6 +69,9 @@ h3 {
   .scrollbar::-webkit-scrollbar-thumb {
     background-color: darkgrey;
   }
+  button.active {
+    @apply bg-linearGreen text-white;
+  }
 }
 @media screen and (max-width: 380px) {
   .comic-gird {

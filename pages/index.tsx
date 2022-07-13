@@ -25,8 +25,8 @@ const HomePage = ({ banners, featureComics, newestComics, pagination }: HomePage
   );
 };
 
-export async function getServerSideProps() {
-  const { data } = await getHomeData();
+export async function getServerSideProps({ query }: any) {
+  const { data } = await getHomeData(query);
   const { banners, featureComics, newestComics, pagination } = data;
   return {
     props: { banners, featureComics, newestComics, pagination },

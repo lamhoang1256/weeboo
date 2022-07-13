@@ -1,9 +1,9 @@
 import axios from "axios";
 const URL_PUBLIC = process.env.URL_PUBLIC;
 
-export const getHomeData = async () => {
+export const getHomeData = async (query: any) => {
   try {
-    const { data } = await axios.get(`${URL_PUBLIC}/api/home`);
+    const { data } = await axios.get(`${URL_PUBLIC}/api/home`, { params: query });
     return data;
   } catch (error) {
     console.log(error);
