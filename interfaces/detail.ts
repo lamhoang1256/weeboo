@@ -1,3 +1,5 @@
+import { IComment } from "./read";
+
 export interface IComicDetail {
   title: string;
   updatedAt: string;
@@ -17,4 +19,10 @@ export interface IOptionChapter {
   title: string;
   updatedAt: string;
   viewCount: string;
+}
+
+export interface IComicDetailPage {
+  detail: IComicDetail;
+  listChapter: IOptionChapter[];
+  comments: IComment[];
 }

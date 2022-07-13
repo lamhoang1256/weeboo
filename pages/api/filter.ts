@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { IFilterOptions } from "interfaces/filter";
 import { IComicItem } from "interfaces/home";
 import { getComicItem } from "utils/crawl";
-const URL = `${process.env.URL_NETTRUYEN}/tim-truyen-nang-cao` || "";
+const URL_NETTRUYEN = `${process.env.URL_NETTRUYEN}/tim-truyen-nang-cao` || "";
 
 interface FilterData {
   data: any;
@@ -33,7 +33,7 @@ export default async function handler(
 
 async function crawlDataFilterPage(params: any) {
   try {
-    const response = await axios.get(URL, { params });
+    const response = await axios.get(URL_NETTRUYEN, { params });
     const html = response.data;
     const $ = cheerio.load(html);
     let filterResults: IComicItem[] = [];

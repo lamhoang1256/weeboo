@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 import { IComicItem } from "interfaces/home";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComicItem } from "utils/crawl";
-const URL = `${process.env.URL_NETTRUYEN}/tim-truyen` || "";
+const URL_NETTRUYEN = `${process.env.URL_NETTRUYEN}/tim-truyen` || "";
 
 interface SearchData {
   data: any;
@@ -32,7 +32,7 @@ export default async function handler(
 
 async function crawlDataSearchPage(query: any) {
   try {
-    const response = await axios.get(URL, { params: query });
+    const response = await axios.get(URL_NETTRUYEN, { params: query });
     const html = response.data;
     const $ = cheerio.load(html);
     let searchResults: IComicItem[] = [];

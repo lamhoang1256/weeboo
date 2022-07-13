@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ICommentReply, IImageChapter, IComment, IChapterReadDetail } from "interfaces/read";
 import { getCommentItem, getCommentReplyItem, getImagesReading } from "utils/crawl";
-const BASE_URL = process.env.URL_NETTRUYEN + "/truyen-tranh";
+const URL_NETTRUYEN = process.env.URL_NETTRUYEN + "/truyen-tranh";
 
 interface WatchResponse {
   data: any;
@@ -22,7 +22,7 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await crawlDataReadChapterPage(`${BASE_URL}/${slug}/${chapter}/${id}`);
+    const data = await crawlDataReadChapterPage(`${URL_NETTRUYEN}/${slug}/${chapter}/${id}`);
     return res.status(200).json({ data });
   } catch (error: any) {
     console.log("Fetching featureComics failed: ", error);

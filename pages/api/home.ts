@@ -3,9 +3,9 @@ import * as cheerio from "cheerio";
 import { IDataHomePage, IHomeBannerItem } from "interfaces/home";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComicFeatureItem, getComicItem, getPagination } from "utils/crawl";
-
 const URL_NETTRUYEN = process.env.URL_NETTRUYEN || "";
 const URL_WEEBOO = process.env.URL_WEEBOO || "";
+
 interface HomeResponse {
   data: any;
 }
@@ -37,7 +37,6 @@ async function crawlDataHomePage(query: any) {
     const html = response.data;
     const $ = cheerio.load(html);
     let dataHomePage: IDataHomePage = { featureComics: [], newestComics: [], pagination: [] };
-
     $(".top-comics .item", html).each(function (index, element) {
       const comic = getComicFeatureItem($(element));
       dataHomePage.featureComics.push(comic);

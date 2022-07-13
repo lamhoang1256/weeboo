@@ -1,4 +1,5 @@
 const URL_NETTRUYEN = process.env.URL_NETTRUYEN || "";
+const urlNetTruyenWithoutHttp = URL_NETTRUYEN?.split("http:")[1] || "";
 
 export function getComicFeatureItem(node: any) {
   const slug = node.find("a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
@@ -29,7 +30,7 @@ export function getCommentItem(node: any) {
     .find("img")
     .first()
     .attr("data-original")
-    ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
+    ?.replace(urlNetTruyenWithoutHttp, URL_NETTRUYEN);
   const content = node.find(".comment-content").first().text();
   const createdAt = node.find("abbr").first().text().trim();
   return { id, username, avatar, content, createdAt };
@@ -41,7 +42,7 @@ export function getCommentReplyItem(node: any) {
   const avatar = node
     .find("img")
     .attr("data-original")
-    ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com/");
+    ?.replace(urlNetTruyenWithoutHttp, URL_NETTRUYEN);
   const mentionUser = node.find(".comment-content .mention-user").text().trim();
   const content = node.find(".comment-content").text().trim().replace(mentionUser, "");
   const createdAt = node.find("abbr").text().trim();
@@ -69,4 +70,34 @@ export function getPagination(node: any, replaceHref = `${URL_NETTRUYEN}/`) {
   const title = node.find("a").attr("title") || "";
   const href = node.find("a").attr("href")?.replace(replaceHref, "") || "";
   return { active, title, display, href };
+}
+
+export function getComicDetail(node: any) {
+  const title = node.find(".title-detail").text();
+  const updatedAt = node.find("time.small").text().trim();
+  const posterUrl = node
+    .find(".col-image img")
+    .attr("src")
+    ?.replace(urlNetTruyenWithoutHttp, URL_NETTRUYEN);
+  const author = node.find(".author .col-xs-8").text();
+  const status = node.find(".status .col-xs-8").text();
+  const categories = node.find(".kind .col-xs-8").text();
+  const viewCount = node.find(".list-info .col-xs-8").last().text();
+  const ratingValue = node.find(".mrt5.mrb10 > span > span").first().text();
+  const ratingCount = node.find(".mrt5.mrb10 > span > span").last().text();
+  const followCount = node.find(".follow span b").text();
+  const description = node.find(".detail-content p").text().trim();
+  return {
+    title,
+    updatedAt,
+    posterUrl,
+    author,
+    status,
+    categories,
+    viewCount,
+    ratingCount,
+    ratingValue,
+    followCount,
+    description,
+  };
 }
