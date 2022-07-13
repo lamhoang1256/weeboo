@@ -1,3 +1,5 @@
+const URL_NETTRUYEN = process.env.URL_NETTRUYEN || "";
+
 export function getComicFeatureItem(node: any) {
   const slug = node.find("a").attr("href")?.split("/truyen-tranh/")?.[1] || "";
   const title = node.find(".slide-caption h3 a").text();
@@ -46,7 +48,6 @@ export function getCommentReplyItem(node: any) {
   return { id, username, avatar, content, createdAt, mentionUser };
 }
 
-// getListChapter
 export function getEpisodeList(node: any) {
   const id = node.find(".chapter a").attr("data-id");
   const href = node.find(".chapter a").attr("href").split("/truyen-tranh/")[1] || "";
@@ -56,9 +57,16 @@ export function getEpisodeList(node: any) {
   return { id, href, title, updatedAt, viewCount };
 }
 
-// getImageChapter
 export function getImagesReading(node: any) {
   const imageUrl = node.find("img").attr("data-original");
   const alt = node.find("img").attr("alt");
   return { alt, imageUrl };
+}
+
+export function getPagination(node: any, replaceHref = `${URL_NETTRUYEN}/`) {
+  const display = node.text();
+  const active = node.hasClass("active");
+  const title = node.find("a").attr("title") || "";
+  const href = node.find("a").attr("href")?.replace(replaceHref, "") || "";
+  return { active, title, display, href };
 }

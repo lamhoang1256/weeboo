@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { IFilterOptions } from "interfaces/filter";
 import { IComicItem } from "interfaces/home";
 import { getComicItem } from "utils/crawl";
-const URL = "http://www.nettruyenco.com/tim-truyen-nang-cao";
+const URL = `${process.env.URL_NETTRUYEN}/tim-truyen-nang-cao` || "";
 
 interface FilterData {
   data: any;
@@ -26,7 +26,7 @@ export default async function handler(
     const data = await crawlDataFilterPage(params);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching featureComics failed: ", error);
+    console.log("Fetching filter page failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }

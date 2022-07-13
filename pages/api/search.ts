@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 import { IComicItem } from "interfaces/home";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getComicItem } from "utils/crawl";
-const URL = "http://www.nettruyenco.com/tim-truyen";
+const URL = `${process.env.URL_NETTRUYEN}/tim-truyen` || "";
 
 interface SearchData {
   data: any;
@@ -25,7 +25,7 @@ export default async function handler(
     const data = await crawlDataSearchPage(query);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching featureComics failed: ", error);
+    console.log("Fetching search page failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }

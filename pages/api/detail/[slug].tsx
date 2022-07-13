@@ -3,8 +3,9 @@ import * as cheerio from "cheerio";
 import { IComicDetail, IOptionChapter } from "interfaces/detail";
 import { ICommentReply, IComment } from "interfaces/read";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getCommentItem, getCommentReplyItem } from "utils/crawl";
-const BASE_URL = process.env.URL_NETTRUYEN + "/truyen-tranh";
+import { getCommentItem, getCommentReplyItem, getEpisodeList } from "utils/crawl";
+const BASE_URL = process.env.URL_NETTRUYEN;
+const URL = process.env.URL_NETTRUYEN + "/truyen-tranh";
 
 interface DetailResponse {
   data: any;
@@ -23,10 +24,10 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await fetchComicDetail(`${BASE_URL}/${slug}`);
+    const data = await fetchComicDetail(`${URL}/${slug}`);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching featureComics failed: ", error);
+    console.log("Fetching comic detail page failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
@@ -46,7 +47,7 @@ async function fetchComicDetail(url: string) {
         $(item)
           .find(".col-image img")
           .attr("src")
-          ?.replace("//st.nettruyenco.com", "http://st.nettruyenco.com") || "";
+          ?.replace(BASE_URL?.split("http:")[1] || "", BASE_URL || "") || "";
       const author = $(item).find(".author .col-xs-8").text();
       const status = $(item).find(".status .col-xs-8").text();
       const categories = $(item).find(".kind .col-xs-8").text();
@@ -71,36 +72,23 @@ async function fetchComicDetail(url: string) {
       $(item)
         .find(".list-chapter li.row")
         .each(function (index, option) {
-          const chapter = getListChapter($(option));
+          const chapter = getEpisodeList($(option));
           listChapter.push(chapter);
         });
-      $(".comment-list").each(function (index, element) {
+      $(".comment-list .item.clearfix").each(function (index, element) {
+        let replyComments: ICommentReply[] = [];
+        const comment = getCommentItem($(element).first());
         $(element)
-          .find(".item.clearfix")
+          .find(".item.child")
           .each(function (index, element) {
-            let replyComments: ICommentReply[] = [];
-            const comment = getCommentItem($(element).first());
-            $(element)
-              .find(".item.child")
-              .each(function (index, element) {
-                const replyComment = getCommentReplyItem($(element));
-                replyComments.push(replyComment);
-              });
-            comments.push({ ...comment, replyComments });
+            const replyComment = getCommentReplyItem($(element));
+            replyComments.push(replyComment);
           });
+        comments.push({ ...comment, replyComments });
       });
     });
     return { detail, listChapter, comments };
   } catch (error) {
     console.log(error);
   }
-}
-
-function getListChapter(node: any) {
-  const id = node.find(".chapter a").attr("data-id");
-  const href = node.find(".chapter a").attr("href").split("/truyen-tranh/")[1] || "";
-  const title = node.find(".chapter a").text();
-  const updatedAt = node.find(".col-xs-4").text();
-  const viewCount = node.find(".col-xs-3").text();
-  return { id, href, title, updatedAt, viewCount };
 }

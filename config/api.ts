@@ -45,3 +45,21 @@ export const getDataFilterPage = async (params: any) => {
     console.log(error);
   }
 };
+
+export const getDataGirlComicPage = async (query: any) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/girl-comic`, { params: query });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getDataBoyComicPage = async (query: any) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/boy-comic`, { params: query });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

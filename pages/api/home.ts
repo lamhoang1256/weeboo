@@ -2,7 +2,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { IDataHomePage, IHomeBannerItem } from "interfaces/home";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getComicFeatureItem, getComicItem } from "utils/crawl";
+import { getComicFeatureItem, getComicItem, getPagination } from "utils/crawl";
 
 const URL_NETTRUYEN = process.env.URL_NETTRUYEN || "";
 const URL_WEEBOO = process.env.URL_WEEBOO || "";
@@ -26,7 +26,7 @@ export default async function handler(
     const dataHome = await crawlDataHomePage(query);
     return res.status(200).json({ data: { banners, ...dataHome } });
   } catch (error: any) {
-    console.log("Fetching featureComics failed: ", error);
+    console.log("Fetching home page failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
@@ -47,15 +47,8 @@ async function crawlDataHomePage(query: any) {
       dataHomePage.newestComics.push(comic);
     });
     $("#ctl00_divCenter .pagination li", html).each(function (index, element) {
-      const display = $(element).text();
-      const active = $(element).hasClass("active");
-      const title = $(element).find("a").attr("title") || "";
-      const href =
-        $(element)
-          .find("a")
-          .attr("href")
-          ?.replace(URL_NETTRUYEN + "/", "") || "";
-      dataHomePage.pagination.push({ active, title, display, href });
+      const paginationItem = getPagination($(element));
+      dataHomePage.pagination.push(paginationItem);
     });
     return dataHomePage;
   } catch (error) {
