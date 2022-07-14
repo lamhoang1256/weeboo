@@ -1,2 +1,3 @@
 import Heading from "./Heading";
-export { Heading };
+import Logo from "./Logo";
+export { Heading, Logo };

@@ -1,12 +1,11 @@
+import { useState } from "react";
+import { Logo } from "components/common";
 import { IconMenu } from "components/icons";
 import { SearchBar } from "components/search";
-import { path } from "constants/path";
-import Link from "next/link";
-import { useState } from "react";
 import Navbar from "./Navbar";
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
   const handleToggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -15,13 +14,9 @@ const Header = () => {
     <header>
       <div className="layout-container">
         <div className="h-20 flex justify-between items-center">
-          <Link href={path.home}>
-            <a>
-              <h1 className="font-bold text-green2d">Weeboo</h1>
-            </a>
-          </Link>
+          <Logo />
           <div className="flex gap-x-6">
-            <SearchBar />
+            <SearchBar className="hidden md:flex" />
             <button className="h-11 md:h-[50px] px-8 bg-linearGreen text-white rounded-lg font-semibold text-lg">
               Login
             </button>

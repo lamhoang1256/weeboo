@@ -1,4 +1,5 @@
 import { IconClose } from "components/icons";
+import { SearchBar } from "components/search";
 import Link from "next/link";
 import classNames from "utils/classNames";
 
@@ -30,12 +31,17 @@ const Navbar = ({ show, toggleShow }: NavbarProps) => {
   return (
     <nav
       className={classNames(
-        "navbar fixed inset-0 md:relative bg-linearGreen transition-all duration-300",
+        "navbar fixed z-10 inset-0 md:relative bg-[#141414] md:bg-linearGreen transition-all duration-300",
         show ? "show" : ""
       )}
     >
       <div className="layout-container">
-        <ul className="flex flex-col pt-11 items-center md:pt-0 md:flex-row gap-x-6">
+        <SearchBar
+          className="max-w-[300px] mx-auto h-[40px] mt-16 md:mt-0 flex md:hidden"
+          show={show}
+          toggleShow={toggleShow}
+        />
+        <ul className="flex flex-col mt-4 md:mt-0 items-center md:pt-0 md:flex-row gap-x-6">
           <button onClick={toggleShow} className="fixed top-4 right-4 text-white">
             <IconClose />
           </button>
