@@ -1,6 +1,5 @@
 import { Layout } from "components/layouts";
 import { getDataTopComicPage } from "config/api";
-import { initialParamsFilter } from "constants/value";
 import { IComicItem } from "interfaces/home";
 import { ITopComicItem } from "interfaces/top-comic";
 import { FilterResults } from "modules/filter";
@@ -13,8 +12,7 @@ interface TopComicPageProps {
 }
 
 const TopComicPage = ({ sort, status, results }: TopComicPageProps) => {
-  const options = [...sort, ...status];
-  console.log("options: ", options);
+  const options = [...status, ...sort];
   return (
     <Layout title="TopComicPage">
       <div className="layout-container">
@@ -26,8 +24,7 @@ const TopComicPage = ({ sort, status, results }: TopComicPageProps) => {
 };
 
 export async function getServerSideProps({ query }: any) {
-  const params = Object.keys(query).length === 0 ? { status: -1, sort: 10 } : query;
-  const { data } = await getDataTopComicPage(params);
+  const { data } = await getDataTopComicPage(query);
   const { sort, status, results } = data;
   return {
     props: { sort, status, results },

@@ -56,6 +56,11 @@ h3 {
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 10px;
   }
+  .comic-top {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
   .grid-detail-episodes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

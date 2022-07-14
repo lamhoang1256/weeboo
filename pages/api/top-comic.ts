@@ -22,17 +22,18 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const data = await crawlDataTopComicPage(query);
+    const url = query?.full ? URL_NETTRUYEN_FULL : URL_NETTRUYEN;
+    const data = await crawlDataTopComicPage(url, query);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching TopComic page failed: ", error);
+    console.log("Fetching Top Comic page failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-async function crawlDataTopComicPage(query: any) {
+async function crawlDataTopComicPage(url: string, query: any) {
   try {
-    const response = await axios.get(URL_NETTRUYEN, { params: query });
+    const response = await axios.get(url, { params: query });
     const html = response.data;
     const $ = cheerio.load(html);
     let topComicResults: any = { status: [], sort: [], results: [] };
@@ -44,7 +45,7 @@ async function crawlDataTopComicPage(query: any) {
     $("#ctl00_mainContent_ctl00_divSort .ajaxlink").each(function (index, element) {
       const active = $(element).hasClass("active");
       const option = getTopComicOption($(element));
-      topComicResults.status.push({ active, ...option });
+      topComicResults.sort.push({ active, ...option });
     });
     $(".ModuleContent .item").each(function (index, element) {
       const comic = getComicItem($(element));
@@ -59,6 +60,9 @@ async function crawlDataTopComicPage(query: any) {
 function getTopComicOption(node: any) {
   const title = node.text();
   const href =
-    node.attr("href")?.replace(URL_NETTRUYEN, "")?.replace(URL_NETTRUYEN_FULL, "comic-full") || "";
+    node
+      .attr("href")
+      ?.replace(URL_NETTRUYEN, "")
+      ?.replace(URL_NETTRUYEN_FULL, "top-comic?full=true") || "/top-comic";
   return { title, href };
 }

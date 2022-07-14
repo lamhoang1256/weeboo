@@ -8,7 +8,7 @@ interface TopComicOptionsProps {
 }
 
 const TopComicOptions = ({ options }: TopComicOptionsProps) => {
-  const buttonStyles = "bg-[#ccc] w-full h-11 rounded-md";
+  const buttonStyles = "bg-[#ccc] h-11 rounded-md";
   return (
     <ComicGrid className="mt-4 items-end">
       {options.map((option) => {
