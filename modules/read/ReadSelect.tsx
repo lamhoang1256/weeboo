@@ -16,7 +16,7 @@ const ReadSelect = ({ listChapter }: ReadSelectProps) => {
   };
 
   return (
-    <Select id="listChapter" onChange={handleChangeChapter}>
+    <Select id="listChapter" onChange={handleChangeChapter} className="max-w-[165px]">
       {listChapter?.map((chapter) => {
         const isSelected = chapter.id === id ? true : false;
         return (

@@ -17,7 +17,7 @@ const Button = ({
   children,
   ...props
 }: ButtonProps) => {
-  const stylesButton = "px-[30px] h-11 bg-linearGreen rounded-md text-white";
+  const stylesButton = "px-[30px] h-11 bg-[#ccc] rounded-md text-white";
   if (to) {
     return (
       <Link href={to}>

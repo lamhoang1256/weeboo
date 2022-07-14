@@ -46,6 +46,16 @@ export const getDataFilterPage = async (params: any) => {
   }
 };
 
+export const getDataTopComicPage = async (params: any) => {
+  try {
+    const { data } = await axios.get(`${URL_PUBLIC}/api/top-comic`, { params: params });
+    console.log("params: ", params);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getDataGirlComicPage = async (query: any) => {
   try {
     const { data } = await axios.get(`${URL_PUBLIC}/api/girl-comic`, { params: query });
