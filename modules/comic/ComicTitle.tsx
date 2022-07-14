@@ -21,16 +21,24 @@ const ComicTitle = ({ to, children, className = "", type = "" }: ComicTitleProps
   if (to) {
     return (
       <Link href={to}>
-        <a className={classNames("block text-[#0f1e36] line-clamp-2 font-bold", styles, className)}>
+        <a
+          className={classNames(
+            "block text-[#0f1e36] line-clamp-2 font-extrabold",
+            styles,
+            className
+          )}
+        >
           {children}
         </a>
       </Link>
     );
   }
   return (
-    <a className={classNames("block text-[#0f1e36]  line-clamp-2 font-bold", styles, className)}>
+    <h3
+      className={classNames("block text-[#0f1e36]  line-clamp-2 font-extrabold", styles, className)}
+    >
       {children}
-    </a>
+    </h3>
   );
 };
 

@@ -13,7 +13,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmitSearch}
-      className="border-[1px] border-[#ccc] h-[50px] px-6 rounded-lg flex justify-between items-center"
+      className="flex border-[1px] border-[#ccc] h-[50px] px-6 rounded-lg justify-between items-center"
     >
       <input
         type="text"

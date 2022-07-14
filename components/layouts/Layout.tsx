@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Footer from "./Footer";
 import Header from "./Header";
-import Navbar from "./Navbar";
 
 interface LayoutProps {
   title?: string;
@@ -18,7 +17,6 @@ const Layout = ({ title, children }: LayoutProps) => {
       </Head>
       <div className="flex flex-col min-h-screen">
         <Header />
-        <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
       </div>

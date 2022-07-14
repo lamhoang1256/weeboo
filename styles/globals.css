@@ -83,3 +83,11 @@ h3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+@media screen and (max-width: 767.98px) {
+  .navbar {
+    transform: translateX(100%);
+  }
+  .navbar.show {
+    transform: translateX(0);
+  }
+}
