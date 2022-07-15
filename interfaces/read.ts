@@ -21,3 +21,9 @@ export interface IImageChapter {
   alt: string;
   imageUrl: string;
 }
+
+export interface IDataReadPage {
+  imageUrls: IImageChapter[];
+  detailChapter: IChapterReadDetail;
+  comments: IComment[];
+}

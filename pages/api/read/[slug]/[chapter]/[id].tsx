@@ -1,7 +1,13 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ICommentReply, IImageChapter, IComment, IChapterReadDetail } from "interfaces/read";
+import {
+  ICommentReply,
+  IImageChapter,
+  IComment,
+  IChapterReadDetail,
+  IDataReadPage,
+} from "interfaces/read";
 import { getCommentItem, getCommentReplyItem, getImagesReading } from "utils/crawl";
 const URL_NETTRUYEN = process.env.URL_NETTRUYEN + "/truyen-tranh";
 
@@ -35,25 +41,27 @@ async function crawlDataReadChapterPage(url: string) {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    const imageUrls: IImageChapter[] = [];
-    let detailChapter: IChapterReadDetail = {} as IChapterReadDetail;
-    const comments: IComment[] = [];
+    let dataReadChapter: IDataReadPage = {
+      imageUrls: [],
+      detailChapter: {} as IChapterReadDetail,
+      comments: [],
+    };
     // get the basic information of the chapter
     $(".reading .container .top")
       .first()
       .each(function (index, item) {
-        const urlOriginal = "http://www.nettruyenco.com/truyen-tranh/";
+        const urlOriginal = URL_NETTRUYEN + "/";
         const blockH1 = $(item).find("h1.txt-primary");
         const urlComic = blockH1.find("a").attr("href")?.replace(urlOriginal, "") || "";
         const title = blockH1.find("a").text();
         const chapter = blockH1.find("span").text();
         const updatedAt = $(item).find("i").text();
-        detailChapter = { title, updatedAt, chapter, urlComic };
+        dataReadChapter.detailChapter = { title, updatedAt, chapter, urlComic };
       });
     // get urls reading image of this chapter
     $(".reading-detail .page-chapter").each(function (index, element) {
       const imageUrl = getImagesReading($(element));
-      imageUrls.push(imageUrl);
+      dataReadChapter.imageUrls.push(imageUrl);
     });
     // get list comment about this chapter
     $(".comment-list .item.clearfix").each(function (index, element) {
@@ -65,9 +73,9 @@ async function crawlDataReadChapterPage(url: string) {
           const replyComment = getCommentReplyItem($(element));
           replyComments.push(replyComment);
         });
-      comments.push({ ...comment, replyComments });
+      dataReadChapter.comments.push({ ...comment, replyComments });
     });
-    return { detailChapter, imageUrls, comments };
+    return dataReadChapter;
   } catch (error) {
     console.log(error);
   }
