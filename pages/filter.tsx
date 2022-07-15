@@ -12,7 +12,7 @@ interface FilterPageProps {
 
 const FilterPage = ({ filterOptions, filterResults }: FilterPageProps) => {
   return (
-    <Layout title="FilterPage">
+    <Layout title="Bộ lạc">
       <div className="layout-container">
         <FilterOptions filterOptions={filterOptions} />
         <FilterResults filterResults={filterResults} />

@@ -14,7 +14,7 @@ interface TopComicPageProps {
 const TopComicPage = ({ sort, status, results }: TopComicPageProps) => {
   const options = [...status, ...sort];
   return (
-    <Layout title="TopComicPage">
+    <Layout title="Bảng xếp hạng">
       <div className="layout-container">
         <TopComicOptions options={options} />
         <FilterResults filterResults={results} />

@@ -14,7 +14,7 @@ interface HomePageProps {
 
 const HomePage = ({ banners, featureComics, newestComics, pagination }: HomePageProps) => {
   return (
-    <Layout title="HomePage">
+    <Layout title="Trang chủ">
       <div className="layout-container">
         <HomeBanner banners={banners} />
         <HomeComics comics={featureComics} heading="Truyện đề cử" />

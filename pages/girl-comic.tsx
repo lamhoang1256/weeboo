@@ -12,7 +12,7 @@ interface GirlComicPageProps {
 
 const GirlComicPage = ({ comics, pagination }: GirlComicPageProps) => {
   return (
-    <Layout title="Girl Comic Page">
+    <Layout title="Truyện con gái">
       <div className="layout-container">
         <HomeComics comics={comics} heading="Truyện con gái" />
         <Pagination pagination={pagination} />

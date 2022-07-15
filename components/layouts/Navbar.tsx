@@ -48,7 +48,7 @@ const Navbar = ({ show, toggleShow }: NavbarProps) => {
           {navbarLinks.map((link) => (
             <li className="h-12 flex items-center text-white" key={link.path}>
               <Link href={link.path}>
-                <a>{link.display}</a>
+                <a onClick={toggleShow}>{link.display}</a>
               </Link>
             </li>
           ))}

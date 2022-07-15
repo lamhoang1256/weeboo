@@ -9,7 +9,7 @@ interface SearchPageProps {
 
 const SearchPage = ({ searchResults }: SearchPageProps) => {
   return (
-    <Layout title="SearchPage">
+    <Layout title="Tìm kiếm">
       <div className="layout-container">
         <Heading className="my-3">Tìm kiếm</Heading>
         <ComicGrid>

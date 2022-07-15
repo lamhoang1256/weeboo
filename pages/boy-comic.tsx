@@ -12,7 +12,7 @@ interface BoyComicPageProps {
 
 const BoyComicPage = ({ comics, pagination }: BoyComicPageProps) => {
   return (
-    <Layout title="Boy Comic Page">
+    <Layout title="Truyện con trai">
       <div className="layout-container">
         <HomeComics comics={comics} heading="Truyện con trai" />
         <Pagination pagination={pagination} />

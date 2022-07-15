@@ -31,7 +31,7 @@ export default async function handler(
     const data = await crawlDataReadChapterPage(`${URL_NETTRUYEN}/${slug}/${chapter}/${id}`);
     return res.status(200).json({ data });
   } catch (error: any) {
-    console.log("Fetching featureComics failed: ", error);
+    console.log("Fetching read comic page failed: ", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
@@ -46,7 +46,6 @@ async function crawlDataReadChapterPage(url: string) {
       detailChapter: {} as IChapterReadDetail,
       comments: [],
     };
-    // get the basic information of the chapter
     $(".reading .container .top")
       .first()
       .each(function (index, item) {
@@ -58,12 +57,10 @@ async function crawlDataReadChapterPage(url: string) {
         const updatedAt = $(item).find("i").text();
         dataReadChapter.detailChapter = { title, updatedAt, chapter, urlComic };
       });
-    // get urls reading image of this chapter
     $(".reading-detail .page-chapter").each(function (index, element) {
       const imageUrl = getImagesReading($(element));
       dataReadChapter.imageUrls.push(imageUrl);
     });
-    // get list comment about this chapter
     $(".comment-list .item.clearfix").each(function (index, element) {
       let replyComments: ICommentReply[] = [];
       const comment = getCommentItem($(element).first());
