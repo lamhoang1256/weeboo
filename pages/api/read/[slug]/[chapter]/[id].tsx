@@ -1,13 +1,7 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import type { NextApiRequest, NextApiResponse } from "next";
-import {
-  ICommentReply,
-  IImageChapter,
-  IComment,
-  IChapterReadDetail,
-  IDataReadPage,
-} from "interfaces/read";
+import { ICommentReply, IChapterReadDetail, IDataReadPage } from "interfaces/read";
 import { getCommentItem, getCommentReplyItem, getImagesReading } from "utils/crawl";
 const URL_NETTRUYEN = process.env.URL_NETTRUYEN + "/truyen-tranh";
 
